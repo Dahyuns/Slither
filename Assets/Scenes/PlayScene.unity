@@ -499,7 +499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startGold: 0
   startHeart: 0
-  startSpeed: 0
+  startSpeed: 10
   startDef: 0
 --- !u!114 &670613472
 MonoBehaviour:
@@ -529,7 +529,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: PC
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1 &697590194

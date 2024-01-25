@@ -27,12 +27,19 @@ namespace Slither
         //시작시 
         [SerializeField] private int startGold = 0;
         [SerializeField] private int startHeart = 0;
-        [SerializeField] private float startSpeed = 1;
+        [SerializeField] private float startSpeed = 10f;
         [SerializeField] private float startDef = 0;
 
         Vector3 moveDir;
 
         private WormControls inputActions;
+
+        private void Awake()
+        {
+            //이거 되는지 궁금스
+            //inputActions = GetComponent<WormControls>();
+            inputActions = new WormControls();
+        }
 
         private void Start()
         {
@@ -40,10 +47,9 @@ namespace Slither
             heart = startHeart;
             speed = startSpeed;
             def = startDef;
-            inputActions = new WormControls();
         }
 
-        #region
+        #region 액션 활성,비활성화
         private void OnEnable()
         {
             inputActions.Enable();
@@ -59,6 +65,12 @@ namespace Slither
         {
             if (moveDir != Vector3.zero)
                 transform.Translate(moveDir.normalized * Time.deltaTime * Speed, Space.World);
+            
+
+            /*if (Input.GetKey(KeyCode.W))
+            {
+                transform.Translate(Vector3.forward * Time.deltaTime * speed, Space.World);
+            }*/
         }
 
         void OnMove(InputValue value)
