@@ -1,18 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Shop : MonoBehaviour
+namespace Slither
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Shop : MonoBehaviour
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void GotoShop()
+        {
+            Time.timeScale = 0f;
+        }
+
+        //방어력 구매
+        public void PurchaseDef()
+        {
+
+        }
+
+        //먹이퍼센트 구매
+        public void PurchaseHeartP()
+        {
+
+        }
+
+        //골드퍼센트 구매
+        public void PurchaseGoldP()
+        {
+
+        }
+
     }
 }
