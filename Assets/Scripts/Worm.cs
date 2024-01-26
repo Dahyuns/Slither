@@ -55,10 +55,6 @@ namespace Slither
             {
                 gold += 10000;
             }
-            if (Input.GetKey(KeyCode.S))
-            {
-
-            }
         }
 
         void OnMove(InputValue value)
