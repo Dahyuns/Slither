@@ -62,7 +62,7 @@ namespace Slither
             Vector2 input = value.Get<Vector2>();
             if (input != null)
             {
-                moveDir = new Vector3(input.x, input.y, 0);
+                moveDir = new Vector3(input.x, 0, input.y);
             }
         }
 
