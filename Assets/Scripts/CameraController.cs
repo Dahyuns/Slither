@@ -16,6 +16,6 @@ public class CameraController : MonoBehaviour
                                       dir.y * cameraSpeed * Time.deltaTime);
         this.transform.Translate(moveDir);*/
 
-        this.transform.position = worm.transform.position + new Vector3(0, 12f, 0);
+        this.transform.position = new Vector3(worm.transform.position.x, transform.position.y, worm.transform.position.z);
     }
 }

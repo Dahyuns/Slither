@@ -9,6 +9,7 @@ namespace Slither
         private static float heart;                       //목숨
         private static float speed;                       //속도
         private static float def;                         //방어력
+        //머리위에 표시
         private static int level = (int)heart;                         //레벨 = 목숨 반내림값
                                                           
         //이거 상점에 두는게 낫나?                          
