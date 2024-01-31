@@ -95,7 +95,7 @@ namespace Slither
         public void PurchaseGoldP()
         {
 
-            Debug.Log("Go 구매");
+            Debug.Log("Gold 구매");
         }
 
     }
