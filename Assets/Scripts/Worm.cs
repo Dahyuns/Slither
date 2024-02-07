@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Slither
+namespace WiggleQuest
 {
     // --% 만큼 추가 획득
     public enum AddPercent
@@ -19,14 +19,13 @@ namespace Slither
         private static float heart;                       //목숨
         private static float speed;                       //속도
         private static float def;                         //방어력
-        private static int level = (int)heart;            //머리위에 표시 //레벨 = 목숨 반내림값
 
         //읽기전용
-        public int Gold { get { return gold; } }
-        public float Heart { get { return heart; } }
-        public float Speed { get { return speed; } }
-        public float Def { get { return def; } }
-        public int Level { get { return level; } }
+        public static int Gold      { get { return gold; } }
+        public static float Heart   { get { return heart; } }
+        public static float Speed   { get { return speed; } }
+        public static float Def     { get { return def; } }
+        public static int Level     { get { return (int)heart;} } //머리위에 표시 //레벨 = 목숨 반내림값
 
         //--%만큼 추가 획득
         private static float goldAddP = 0;                    //골드   --%만큼 추가 획득
@@ -67,7 +66,7 @@ namespace Slither
 
         //시작 스탯
         [SerializeField] private int startGold = 0;
-        [SerializeField] private int startHeart = 5;
+        [SerializeField] private int startHeart = 3;
         [SerializeField] private float startSpeed = 10f;
         [SerializeField] private float startDef = 0;
 

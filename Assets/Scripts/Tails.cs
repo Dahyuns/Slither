@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Slither
+namespace WiggleQuest
 {
     public class Tails : MonoBehaviour
     {
