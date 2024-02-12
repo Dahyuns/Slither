@@ -72,6 +72,8 @@ namespace WiggleQuest
 
         //움직임 벡터
         Vector3 moveDir;
+        //꼬리 코드에 가져갈거
+        public static bool isWormMoving = false;
 
         private void Start()
         {
@@ -100,6 +102,7 @@ namespace WiggleQuest
             {
                 moveDir = new Vector3(input.x, 0, input.y);
             }
+            isWormMoving = true;
         }
 
         //[ float 에서 int 로 변환할때 기본적으로 소수점 뒷자리를 버림을 한다. ]
