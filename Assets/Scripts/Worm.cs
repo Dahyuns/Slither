@@ -27,39 +27,42 @@ namespace WiggleQuest
         public static float Def     { get { return def; } }
         public static int Level     { get { return (int)heart;} } //¸Ó¸®À§¿¡ Ç¥½Ã //·¹º§ = ¸ñ¼û ¹Ý³»¸²°ª
 
-        //--%¸¸Å­ Ãß°¡ È¹µæ
-        private static float goldAddP = 0;                    //°ñµå   --%¸¸Å­ Ãß°¡ È¹µæ
-        private static float heartAddP = 0;                   //¸ÔÀÌ   --%¸¸Å­ Ãß°¡ È¹µæ
-        private static float defAddP = 0;                     //¹æ¾î·Â --%¸¸Å­ Ãß°¡ È¹µæ
-        private static float speedAddP = 0;                   //¼Óµµ   --%¸¸Å­ Ãß°¡ È¹µæ
+        //*--Lv¸¸Å­ Ãß°¡ È¹µæ
+        private static float goldAddLv = 0;                    //°ñµå   Ãß°¡ È¹µæLv
+        private static float heartAddLv = 0;                   //¸ÔÀÌ   Ãß°¡ È¹µæLv
+        private static float defAddLv = 0;                     //¹æ¾î·Â Ãß°¡ È¹µæLv
+        private static float speedAddLv = 0;                   //¼Óµµ   Ãß°¡ È¹µæLv
 
-        //Gold, Heart, DefÁß ¼±ÅÃ, %Ãß°¡
-        //¹ë·±½ºÁ¶ÀýºÎºÐ
-        public void AddP(AddPercent what)
+        //--%¸¸Å­ Ãß°¡ È¹µæ <°íÁ¤>
+        private float goldAddP = 0;                    //°ñµå   --%¸¸Å­ Ãß°¡ È¹µæ
+        private float heartAddP = 0;                   //¸ÔÀÌ   --%¸¸Å­ Ãß°¡ È¹µæ
+        private float defAddP = 0;                     //¹æ¾î·Â --%¸¸Å­ Ãß°¡ È¹µæ
+        private float speedAddP = 0;                   //¼Óµµ   --%¸¸Å­ Ãß°¡ È¹µæ
+
+        //Gold, Heart, DefÁß ¼±ÅÃ, %Ãß°¡     //¹ë·±½ºÁ¶ÀýºÎºÐÃß°¡ ÇÊ¿ä
+        public void AddLv(AddPercent what)
         {
-            //°ñµåÂ÷°¨?..»óÁ¡¿¡¼­ ÇÏ´Â°É·Î ³ªÁß¿¡ ¹Ù²Ù»ï
-            SubtractGold(100);
 
             switch (what)
             {
-                //°ñµå
+                //°ñµå·¹º§¾÷
                 case AddPercent.Gold:
-                    goldAddP += 0;
+                    goldAddLv += 1;
                     break;
 
                 //¸ÔÀÌ
                 case AddPercent.Heart:
-                    heartAddP += 0;
+                    heartAddLv += 1;
                     break;
 
                 //¹æ¾î·Â
                 case AddPercent.Def:
-                    defAddP += 0;
+                    defAddLv += 1;
                     break;
 
                 //¼Óµµ
                 case AddPercent.Speed:
-                    speedAddP += 0;
+                    speedAddLv += 1;
                     break;
             }
         }
@@ -107,10 +110,10 @@ namespace WiggleQuest
 
         //[ float ¿¡¼­ int ·Î º¯È¯ÇÒ¶§ ±âº»ÀûÀ¸·Î ¼Ò¼öÁ¡ µÞÀÚ¸®¸¦ ¹ö¸²À» ÇÑ´Ù. ]
 
-        // °ñµå Ãß°¡ - °ñµåÈ¹µæ => ¿ø·¡ µé°íÀÖ´Â °ñµå += ¾òÀº °ñµå + ¾òÀº °ñµå * goldAddP
+        // °ñµå Ãß°¡ - °ñµåÈ¹µæ => ¿ø·¡ µé°íÀÖ´Â °ñµå += ¾òÀº °ñµå + ¾òÀº °ñµå * (goldAddLv * 00%) 
         public void AddGold(int value)
         {
-            gold += value + (int)(value * goldAddP);
+            gold += value + (int)(value * goldAddLv);
         }
 
         //      °¨¼Ò - »óÁ¡±¸¸Å
@@ -119,10 +122,10 @@ namespace WiggleQuest
             gold -= value;
         }
 
-        // ¸ñ¼û Ãß°¡ - ¸ÔÀÌÈ¹µæ => ¿ø·¡ °®°íÀÖ´Â ¸ñ¼û += ¾òÀº ¸ÔÀÌ + ¾òÀº ¸ÔÀÌ * goldAddP
+        // ¸ñ¼û Ãß°¡ - ¸ÔÀÌÈ¹µæ => ¿ø·¡ °®°íÀÖ´Â ¸ñ¼û += ¾òÀº ¸ÔÀÌ + ¾òÀº ¸ÔÀÌ * (goldAddLv * 00%)
         public void AddHeart(float value)
         {
-            heart += value + (int)(value * heartAddP);
+            heart += value + (int)(value * heartAddLv);
         }
 
         //      °¨¼Ò - Àå¾Ö¹° ºÎµúÈû => ¹æ¾î·Â!!!

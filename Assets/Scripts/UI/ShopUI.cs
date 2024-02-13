@@ -10,6 +10,8 @@ namespace WiggleQuest
         public  GameObject ShopMenu;
         //private GameObject[] EveryInShop;
 
+        public Worm worm;
+
         //상점에 들어갔는지?
         private bool isInShop = false;
 
@@ -73,6 +75,9 @@ namespace WiggleQuest
         //스피드 구매
         public void PurchaseSpeed()
         {
+            //골드차감?..
+            worm.SubtractGold(100);
+            worm.AddLv(AddPercent.Gold);
             Debug.Log("스피드 구매");
 
         }
