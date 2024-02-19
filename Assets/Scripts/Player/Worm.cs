@@ -22,7 +22,7 @@ namespace WiggleQuest
 
         //읽기전용
         public static float Heart   { get { return heart; } }
-        public static int Gold      { get { return gold; } }
+        public static int   Gold      { get { return gold; } }
         public static float Speed   { get { return speed; } }
         public static float Def     { get { return def; } }
 

@@ -420,6 +420,7 @@ GameObject:
   - component: {fileID: 237879845}
   - component: {fileID: 237879844}
   - component: {fileID: 237879843}
+  - component: {fileID: 237879846}
   m_Layer: 5
   m_Name: StatusUI
   m_TagString: Untagged
@@ -511,6 +512,20 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &237879846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237879841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c035632ed85b4dc4ab39b0ac4d6cf1ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Leveltext: {fileID: 490726796}
+  Goldtext: {fileID: 997916921}
 --- !u!1 &275389334
 GameObject:
   m_ObjectHideFlags: 0
@@ -1830,7 +1845,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1645629430}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Slither.Shop, Assembly-CSharp
         m_MethodName: PurchaseDef
         m_Mode: 1
@@ -2042,10 +2057,10 @@ GameObject:
   - component: {fileID: 670613469}
   - component: {fileID: 670613468}
   - component: {fileID: 670613467}
+  - component: {fileID: 670613473}
+  - component: {fileID: 670613472}
   - component: {fileID: 670613471}
   - component: {fileID: 670613474}
-  - component: {fileID: 670613472}
-  - component: {fileID: 670613473}
   m_Layer: 0
   m_Name: Worm
   m_TagString: Untagged
@@ -2134,7 +2149,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 20, y: 0.5, z: 20}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 237879842}
@@ -2223,11 +2238,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 670613465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c035632ed85b4dc4ab39b0ac4d6cf1ba, type: 3}
+  m_Script: {fileID: 11500000, guid: 885986846ba3c6b419d9e648bf514cc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Leveltext: {fileID: 490726796}
-  Goldtext: {fileID: 997916921}
+  beforeTail: {fileID: 0}
+  tailNumber: 0
 --- !u!1 &697590194
 GameObject:
   m_ObjectHideFlags: 0
@@ -2272,9 +2287,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5215948f8872bec45b70c60a0d215344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worm: {fileID: 670613470}
+  wormFace: {fileID: 670613470}
   tailPrefab: {fileID: 4870920088666910674, guid: 8dbe823d9484dcd4d95b1bc6e85d97b6,
     type: 3}
+  tailCount: 3
+  tailStartCount: 3
 --- !u!1 &713003092
 GameObject:
   m_ObjectHideFlags: 0
@@ -2359,7 +2376,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1645629430}
-        m_TargetAssemblyTypeName: Slither.Shop, Assembly-CSharp
+        m_TargetAssemblyTypeName: WiggleQuest.ShopUI, Assembly-CSharp
         m_MethodName: GotoPlayGround
         m_Mode: 1
         m_Arguments:
@@ -2716,7 +2733,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1645629430}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Slither.Shop, Assembly-CSharp
         m_MethodName: PurchaseDef
         m_Mode: 1
@@ -3272,8 +3289,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1645629430}
-        m_TargetAssemblyTypeName: Slither.Shop, Assembly-CSharp
-        m_MethodName: PurchaseHeartP
+        m_TargetAssemblyTypeName: WiggleQuest.ShopUI, Assembly-CSharp
+        m_MethodName: PurchaseHeart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3948,8 +3965,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1645629430}
-        m_TargetAssemblyTypeName: Slither.Shop, Assembly-CSharp
-        m_MethodName: PurchaseGoldP
+        m_TargetAssemblyTypeName: WiggleQuest.ShopUI, Assembly-CSharp
+        m_MethodName: PurchaseGold
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4138,9 +4155,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1655576658}
-  - {fileID: 1412955425}
   - {fileID: 1024195871}
+  - {fileID: 1412955425}
+  - {fileID: 1655576658}
   m_Father: {fileID: 1994696692}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4709,9 +4726,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8305bb90790b8a147baa2f52e64de758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worm: {fileID: 670613471}
   ShopButton: {fileID: 2081853742}
   ShopMenu: {fileID: 1887684462}
-  worm: {fileID: 670613471}
+  priceHeart: 64000000c80000002c010000
+  priceGold: 64000000c80000002c010000
+  priceSpeed: 64000000c80000002c010000
+  priceDef: 64000000c80000002c010000
 --- !u!1 &1655576657
 GameObject:
   m_ObjectHideFlags: 0
@@ -5114,7 +5135,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1645629430}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Slither.Shop, Assembly-CSharp
         m_MethodName: PurchaseDef
         m_Mode: 1
@@ -6286,7 +6307,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1645629430}
-        m_TargetAssemblyTypeName: Slither.Shop, Assembly-CSharp
+        m_TargetAssemblyTypeName: WiggleQuest.ShopUI, Assembly-CSharp
         m_MethodName: GotoShop
         m_Mode: 1
         m_Arguments:

@@ -2,15 +2,22 @@ using UnityEngine;
 
 namespace WiggleQuest
 {
+    //해야하는것
+    //돈있는지 확인
+
     public class ShopUI : MonoBehaviour
     {
-        //상점 버튼 [ Shop ]
-        public  GameObject ShopButton;
-        //상점 UI
-        public  GameObject ShopMenu;
-        //private GameObject[] EveryInShop;
-
+        //참조
         public Worm worm;
+        public GameObject ShopButton; //상점 버튼 [ Shop ]
+        public GameObject ShopMenu; //상점 UI
+
+        //가격
+        [SerializeField] private int[] priceHeart = {100,200,300};
+        [SerializeField] private int[] priceGold  = { 100, 200, 300 };
+        [SerializeField] private int[] priceSpeed = { 100, 200, 300 };
+        [SerializeField] private int[] priceDef   = { 100, 200, 300 };
+
 
         //상점에 들어갔는지?
         private bool isInShop = false;
@@ -39,15 +46,14 @@ namespace WiggleQuest
             }
         }
 
-        //상점에서 필드로
+        //ESC input시 //상점에서 필드로
         public void GotoPlayGround()
         {
             Time.timeScale = 1f; //다시 재생
             ShopStatusReverse();
         }
 
-        //버튼 클릭시
-        //필드에서 상점으로
+        //버튼 클릭시 //필드에서 상점으로
         public void GotoShop()
         {
             Time.timeScale = 0f; //일시정지
@@ -57,27 +63,26 @@ namespace WiggleQuest
         //상점 진입 / 퇴장
         private void ShopStatusReverse()
         {
-            //1 버튼으로 가져왔을때
-            //ShopButton.enabled = !(ShopButton.enabled);
-            //ShopButton.image.enabled = !(ShopButton.image.enabled);
+            /*1 버튼으로 가져왔을때
+            ShopButton.enabled = !(ShopButton.enabled);
+            ShopButton.image.enabled = !(ShopButton.image.enabled);*/
             //2 게임 오브젝트로 가져왔을때
             ShopButton.SetActive(isInShop);
 
-            isInShop = !isInShop; //버튼과 반대로 작업
+            isInShop = !isInShop; //반대로 작업
             ShopMenu.SetActive(isInShop);
             /*foreach (GameObject each in EveryInShop)
             {
                 each.SetActive(isInShop);
             }*/
-
         }
 
         //스피드 구매
         public void PurchaseSpeed()
         {
             //골드차감?..
-            worm.SubtractGold(100);
-            worm.AddLv(AddPercent.Gold);
+            worm.SubtractGold(priceSpeed[0]);
+            worm.AddLv(AddPercent.Speed);
             Debug.Log("스피드 구매");
 
         }
@@ -85,23 +90,26 @@ namespace WiggleQuest
         //방어력 구매
         public void PurchaseDef()
         {
+            worm.SubtractGold(priceDef[0]);
+            worm.AddLv(AddPercent.Def);
             Debug.Log("방어력 구매");
         }
 
         //먹이퍼센트 구매
-        public void PurchaseHeartP()
+        public void PurchaseHeart()
         {
+            worm.SubtractGold(priceHeart[0]);
+            worm.AddLv(AddPercent.Heart);
             Debug.Log("HP 구매");
 
         }
-        
-        //골드퍼센트 구매
-        public void PurchaseGoldP()
-        {
 
+        //골드퍼센트 구매
+        public void PurchaseGold()
+        {
+            worm.SubtractGold(priceGold[0]);
+            worm.AddLv(AddPercent.Gold);
             Debug.Log("Gold 구매");
         }
-
-
     }
 }
