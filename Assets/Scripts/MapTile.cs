@@ -25,7 +25,7 @@ namespace WiggleQuest
         //맵 사이즈 (:간격)에 따라 이동
         [SerializeField] private float offset = 10f;
 
-        //비교대상 - 전위치
+        //비교대상 - 전위치, 기준이 되는 위치
         private float camerabeforePosX;
         private float camerabeforePosZ;
 
@@ -106,6 +106,7 @@ namespace WiggleQuest
                 //이전위치 = 현재위치 저장
                 camerabeforePosX = cameraTransform.position.x;
             }
+
             if (cameradisZ >= offset)
             {
                 thisPos.z += offset;
