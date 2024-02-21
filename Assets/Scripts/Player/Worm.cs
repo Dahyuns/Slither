@@ -3,13 +3,13 @@ using UnityEngine.InputSystem;
 
 namespace WiggleQuest
 {
-    // --% 만큼 추가 획득
+    // 추가확률 종류
     public enum AddPercent
     {
         Gold,   //골드  
         Heart,  //먹이
-        Def,    //방어력
-        Speed   //속도  
+        Speed,  //속도  
+        Def     //방어력
     }
 
     public class Worm : MonoBehaviour
@@ -22,11 +22,11 @@ namespace WiggleQuest
 
         //읽기전용
         public static float Heart   { get { return heart; } }
-        public static int   Gold      { get { return gold; } }
+        public static int   Gold    { get { return gold; } }
         public static float Speed   { get { return speed; } }
         public static float Def     { get { return def; } }
 
-        public static int Level     { get { return (int)heart;} } //머리위에 표시 //레벨 = 목숨 반내림값
+        public static int Level     { get { return (int)heart;} } //머리위에 표시용 //레벨 = 목숨 반내림값
 
         //*--Lv만큼 추가 획득
         private static float heartAddLv = 0;                   //먹이   추가 획득Lv
@@ -43,7 +43,6 @@ namespace WiggleQuest
         //Gold, Heart, Def중 선택, %추가     
         public void AddLv(AddPercent what)
         {
-
             switch (what)
             {
                 //골드레벨업
@@ -92,7 +91,14 @@ namespace WiggleQuest
         private void Update()
         {
             if (moveDir != Vector3.zero)
+            {
                 transform.Translate(moveDir.normalized * Time.deltaTime * Speed, Space.World);
+                isWormMoving = true;
+            }
+            else
+            {
+                isWormMoving = false;
+            }
 
             //치트키
             if (Input.GetKey(KeyCode.M))
@@ -110,9 +116,18 @@ namespace WiggleQuest
         }
 
         //      감소 - 상점구매
-        public void SubtractGold(int value)
+        public bool SubtractGold(int value)
         {
-            gold -= value;
+            if (gold < value)
+            {
+                Debug.Log("돈부족! 구매불가능");
+                return false;
+            }
+            else // gold >= value 
+            {
+                gold -= value;
+                return true;
+            }
         }
 
         // 목숨 추가 - 먹이획득 => 원래 갖고있는 목숨 += 얻은 먹이 + 얻은 먹이 * (goldAddLv * 00%)
@@ -146,8 +161,6 @@ namespace WiggleQuest
             {
                 moveDir = new Vector3(input.x, 0, input.y);
             }
-            isWormMoving = true;
         }
-
     }
 }

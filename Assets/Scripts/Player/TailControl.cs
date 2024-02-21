@@ -10,7 +10,7 @@ namespace WiggleQuest
         public Transform wormFace;    //지렁이 얼굴
         public GameObject tailPrefab; //꼬리 프리팹
 
-        private Tail headTail = null;  //연결리
+        private Tail headTail = null;  //연결리스트 Head
         private Tail lastTail = null; //가장 뒤의 꼬리 저장
 
         [SerializeField]

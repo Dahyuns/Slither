@@ -12,12 +12,11 @@ namespace WiggleQuest
         public GameObject ShopButton; //상점 버튼 [ Shop ]
         public GameObject ShopMenu; //상점 UI
 
-        //가격
-        [SerializeField] private int[] priceHeart = {100,200,300};
+        //가격 - 밸런스조절부분
+        [SerializeField] private int[] priceHeart = { 100, 200, 300 };
         [SerializeField] private int[] priceGold  = { 100, 200, 300 };
         [SerializeField] private int[] priceSpeed = { 100, 200, 300 };
         [SerializeField] private int[] priceDef   = { 100, 200, 300 };
-
 
         //상점에 들어갔는지?
         private bool isInShop = false;
@@ -29,7 +28,7 @@ namespace WiggleQuest
         //상점퇴장 : ESC            ㅡ 필드로
         private void Start()
         {
-            //샵메뉴의 모든 오브젝트 가져오기
+            //샵메뉴의 모든 오브젝트 가져오기?
             //EveryInShop = ShopMenu.GetComponentsInChildren<GameObject>(true);
         }
         private void Update()
@@ -46,14 +45,14 @@ namespace WiggleQuest
             }
         }
 
-        //ESC input시 //상점에서 필드로
+        //Back버튼 클릭시 및 ESC input시 //상점에서 필드로
         public void GotoPlayGround()
         {
             Time.timeScale = 1f; //다시 재생
             ShopStatusReverse();
         }
 
-        //버튼 클릭시 //필드에서 상점으로
+        //Shop버튼 클릭시 //필드에서 상점으로
         public void GotoShop()
         {
             Time.timeScale = 0f; //일시정지
@@ -77,39 +76,45 @@ namespace WiggleQuest
             }*/
         }
 
-        //스피드 구매
+        //먹이추가확률 구매
+        public void PurchaseHeart()
+        {
+            if (worm.SubtractGold(priceHeart[0]))
+            {
+                worm.AddLv(AddPercent.Heart);
+                Debug.Log("HP 구매");
+            }
+        }
+
+        //골드추가확률 구매
+        public void PurchaseGold()
+        {
+            if (worm.SubtractGold(priceGold[0]))
+            {
+                worm.AddLv(AddPercent.Gold);
+                Debug.Log("Gold 구매");
+            }
+        }
+
+        //스피드추가확률 구매
         public void PurchaseSpeed()
         {
-            //골드차감?..
-            worm.SubtractGold(priceSpeed[0]);
-            worm.AddLv(AddPercent.Speed);
-            Debug.Log("스피드 구매");
-
+            if (worm.SubtractGold(priceSpeed[0]))
+            {
+                worm.AddLv(AddPercent.Speed);
+                Debug.Log("스피드 구매");
+            }
         }
 
         //방어력 구매
         public void PurchaseDef()
         {
-            worm.SubtractGold(priceDef[0]);
-            worm.AddLv(AddPercent.Def);
-            Debug.Log("방어력 구매");
-        }
-
-        //먹이퍼센트 구매
-        public void PurchaseHeart()
-        {
-            worm.SubtractGold(priceHeart[0]);
-            worm.AddLv(AddPercent.Heart);
-            Debug.Log("HP 구매");
-
-        }
-
-        //골드퍼센트 구매
-        public void PurchaseGold()
-        {
-            worm.SubtractGold(priceGold[0]);
-            worm.AddLv(AddPercent.Gold);
-            Debug.Log("Gold 구매");
+            //1,2,3레벨 갑옷 구분필요
+            if (worm.SubtractGold(priceDef[0]))
+            {
+                worm.AddLv(AddPercent.Def);
+                Debug.Log("방어력 구매");
+            }
         }
     }
 }

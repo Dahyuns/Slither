@@ -8,11 +8,6 @@ namespace WiggleQuest
         public TextMeshProUGUI Leveltext;
         public TextMeshProUGUI Goldtext;
 
-        private void Start ()
-        {
-
-        }
-
         private void Update ()
         {
             DrawLevelText();

@@ -10,5 +10,13 @@ namespace WiggleQuest
 
         //게임 메모리에 무리가 가지않으면서 게임의 흐름을 끊지않게
         // 삭제 거리가 있다면, 생성위치도 받아와야함!!ㄷㄷ
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            Destroy(this.gameObject);
+            //몸통줄이기
+            //ㄴ꼬리가져오기
+            //ㄴDestroy(collision.gameObject.꼬리);
+        }
     }
 }
