@@ -2546,7 +2546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5215948f8872bec45b70c60a0d215344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wormFace: {fileID: 670613470}
+  wormFace: {fileID: 670613465}
   tailPrefab: {fileID: 4870920088666910674, guid: 8dbe823d9484dcd4d95b1bc6e85d97b6,
     type: 3}
   tailCount: 3
