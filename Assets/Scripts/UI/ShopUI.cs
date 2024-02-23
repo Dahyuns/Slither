@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace WiggleQuest
 {
@@ -115,6 +116,11 @@ namespace WiggleQuest
                 worm.AddLv(AddPercent.Def);
                 Debug.Log("방어력 구매");
             }
+        }
+
+        void OnPoint(InputValue value)
+        {
+            PriceTextControl.mousePoint = value.Get<Vector2>();
         }
     }
 }

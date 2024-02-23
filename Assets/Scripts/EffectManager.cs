@@ -12,7 +12,7 @@ namespace WiggleQuest
         private GameObject runEff;
 
         // 상태 bool형으로 가져와서 달리기 시작 @@초후부터~ false될때까지
-        [SerializeField] private float countDown = 0.5f;
+        [SerializeField] private float createCount = 0.5f;
         // 이펙트 지속시간
         [SerializeField] private float Destroycount = 0.5f;
 
@@ -45,7 +45,7 @@ namespace WiggleQuest
             isActEffct = true;
 
             //@@초 이후
-            yield return new WaitForSeconds(countDown);
+            yield return new WaitForSeconds(createCount);
 
             //이펙트 생성
             runEff = Instantiate(RunEffect, Efftransform);
