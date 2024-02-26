@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace WiggleQuest
 {
-    //해야하는것
+    //추가구현
     //돈있는지 확인
 
     public class ShopUI : MonoBehaviour

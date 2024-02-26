@@ -5,7 +5,9 @@ namespace WiggleQuest
 {
     public class TailControl : MonoBehaviour
     {
+        //추가구현
         //꼬리 랜덤 생성, 따라서 움직이게 만들기
+
         private enum Count
         { Up, Down, None }
         public GameObject wormFace;    //지렁이 얼굴
@@ -33,6 +35,7 @@ namespace WiggleQuest
         //count체크하고 메서드호출
         private void Update()
         {
+            tailCount = Worm.Level;
             //시험용 : 만들 꼬리 개수 up
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
@@ -53,6 +56,8 @@ namespace WiggleQuest
                     break;
             }
         }
+
+
         Count CheckCount()
         {
             //꼬리수가 만들어져있는 수보다 적으면

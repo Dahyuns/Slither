@@ -3,6 +3,10 @@ using UnityEngine.InputSystem;
 
 namespace WiggleQuest
 {
+    //추가구현
+    //이동 제한 (꼬리쪽으로 못가게)
+
+
     // 추가확률 종류
     public enum AddPercent
     {
@@ -75,6 +79,7 @@ namespace WiggleQuest
 
         //움직임 벡터
         Vector3 moveDir;
+        private Vector3 beforeLocate;
 
         //다른 코드에 가져갈거
         public static bool isWormMoving = false;
@@ -98,15 +103,19 @@ namespace WiggleQuest
             else
             {
                 isWormMoving = false;
+                beforeLocate = this.transform.position;
             }
+
 
             //치트키
             if (Input.GetKey(KeyCode.M))
             {
                 gold += 10000;
             }
+
         }
 
+        #region + , -
         //[ float 에서 int 로 변환할때 기본적으로 소수점 뒷자리를 버림을 한다. ]
 
         // 골드 추가 - 골드획득 => 원래 들고있는 골드 += 얻은 골드 + 얻은 골드 * (goldAddLv * 00%) 
@@ -153,6 +162,14 @@ namespace WiggleQuest
         {
             def += value + (int)(value * defAddLv * defAddP);
         }
+        #endregion
+
+        public float MoveDis()
+        {
+            float movedis = (beforeLocate - transform.position).magnitude;
+            return movedis;
+        }
+
 
         void OnMove(InputValue value)
         {

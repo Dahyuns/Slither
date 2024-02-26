@@ -5,6 +5,7 @@ namespace WiggleQuest
 {
     public class EffectManager : MonoBehaviour
     {
+        #region RunEffect
         public GameObject RunEffect;
         public Transform Efftransform;
 
@@ -50,5 +51,6 @@ namespace WiggleQuest
             //이펙트 생성
             runEff = Instantiate(RunEffect, Efftransform);
         }
+        #endregion
     }
 }
