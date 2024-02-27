@@ -57,7 +57,6 @@ namespace WiggleQuest
             if (dir.magnitude > betweenDis)
             {
                 this.transform.position += dir.normalized * moveDis * Worm.Speed * Time.deltaTime;
-                Debug.Log("Move" + tailNumber);
             }
         }
     }

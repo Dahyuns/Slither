@@ -43,9 +43,10 @@ namespace WiggleQuest
 
             //[치트키] : 꼬리 개수 up
             if (Input.GetKeyDown(KeyCode.LeftShift))
-            {
                 tailCount++;
-            }
+            //[치트키] : 꼬리 개수 down
+            if (Input.GetKeyDown(KeyCode.LeftControl))
+                tailCount--;
 
             switch (CheckCount())
             {
@@ -61,6 +62,12 @@ namespace WiggleQuest
 
                 case Count.Down:
                     DestroyTail();
+                    if (tailCount < 0)
+                    {
+                        Debug.Log("더 이상 삭제할 수 없습니다. : GameOver");
+                        //gameover
+                        return;
+                    }
                     break;
             }
         }
@@ -83,7 +90,6 @@ namespace WiggleQuest
         //[2]연결리스트 노드활용  
         IEnumerator AddTail()
         {
-            Debug.Log("코루틴 시작함");
             isAddingTail = true;
 
             //생성
@@ -143,7 +149,6 @@ namespace WiggleQuest
 
             tailMakedCount++;//카운트 +1
             newtail.tailNumber = tailMakedCount; //이번 꼬리는 몇번쨰?
-            Debug.Log(tailMakedCount);
 
             //이 꼬리를 head와 last에 저장
             headTail = newtail; //생성용
@@ -158,7 +163,7 @@ namespace WiggleQuest
             //Head를 전의 꼬리로
             headTail = headTail.beforeTail;
             //이번꼬리 삭제    
-            Destroy(lastTail);
+            Destroy(lastTail.gameObject);
 
             //삭제돼, null상태인 lastTail에 Head저장
             lastTail = headTail;

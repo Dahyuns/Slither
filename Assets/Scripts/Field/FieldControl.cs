@@ -5,19 +5,9 @@ namespace WiggleQuest
     public class FieldControl : MonoBehaviour
     {
         //추가구현
-        //추가, 삭제 영역 저장 
-
-        //feed gold trap(fire,)
-        //     ㄴ 위치 랜덤/ 수량 조절 가능하게 / 겹치면X
-        //                                      ㄴ 겹치면 destroy?
-
-
-        //Create Field : Create 구역내에 생성 및 Destroy타일을 만듬
-        //예비 타일이 이거고, 
-        //생성하면 create타일은 삭제 or 이동
-        //**그곳에 destroy가 있는지 확인, 없으면 생성
-        //collider로 닿으면 false반환?
-
+        //생성 기준 타일 'Create Field' 구역내에 Field Tile생성
+        //맵타일이 맵타일 사이즈만큼 움직이면, Create Field가 Move
+        //                 ㄴ 움직인 곳이 Field Tile 좌표와 동일한지 확인 (생성 위치 리스트에 저장? - 적절한 탐색 알고리즘 찾아보기), 없으면 생성
 
         enum TilePos
         {
@@ -27,28 +17,26 @@ namespace WiggleQuest
             Lower       //아래 
         }
 
-        private float createPosX;
+        // [Field Tile 생성부분]
+
+
+
+        //모든 좌표를 검사 - 겹치는 좌표 존재, 변수 많아짐.. 어쩌지?
+
+        //upper 좌표 4개?
+        private float createPosX1;
         private float createPosX2;
-        private float createPosX3;
-        private float createPosX4;
+        private float createPosY1;
+        private float createPosY2;
+        //Right 좌표 4개?
+        //Left  좌표 4개?
+        //Lower 좌표 4개?
 
 
-        private float createPosY;
+        //가독성 떨어지지 않고 가장 효율적인 방법을 찾고싶다!!!!!!!!!!!!!!!!!!!!!
 
-
-
-
-
-
-
-
-
-        //Destroy Field : 현 Destroy타일이 플레이어에서 일정거리 멀어지면 (필드 위 모든 아이템과 함께)삭제
-        private float destroyPosX;
-        private float destroyPosY;
-
-        private float destroyDistance; //일정거리
-
+        /* 
+        collider 닿으면 Create false반환?      */
 
     }
 }
