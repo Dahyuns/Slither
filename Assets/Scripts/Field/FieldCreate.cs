@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace WiggleQuest
 {
-    public class Field : MonoBehaviour
+    public class FieldCreate : MonoBehaviour
     {
         // Start is called before the first frame update
         void Start()

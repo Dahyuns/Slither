@@ -28,7 +28,19 @@ namespace WiggleQuest
         }
 
         private float createPosX;
+        private float createPosX2;
+        private float createPosX3;
+        private float createPosX4;
+
+
         private float createPosY;
+
+
+
+
+
+
+
 
 
         //Destroy Field : 현 Destroy타일이 플레이어에서 일정거리 멀어지면 (필드 위 모든 아이템과 함께)삭제

@@ -30,7 +30,7 @@ namespace WiggleQuest
             if (beforeTail != null)
             {
                 //앞과 this의 거리 float
-                betweenDis = 0.5f; //(beforeTail.transform.position - this.transform.position).magnitude;
+                betweenDis = 0.2f; //(beforeTail.transform.position - this.transform.position).magnitude;
                 worm = GameObject.Find("Worm").GetComponent<Worm>();
             }
         }
