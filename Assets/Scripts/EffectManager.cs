@@ -26,7 +26,11 @@ namespace WiggleQuest
             //이펙트X, 지렁이가 움직임
             if (isActEffct == false && Worm.isWormMoving == true)
             {
-                StartCoroutine(CreateRunEff());
+                //생성된 이펙트가 없다면
+                if (runEff == null)
+                {
+                    StartCoroutine(CreateRunEff());
+                }
             }
             //이펙트O, 지렁이가 움직이지 않을때
             else if (isActEffct == true && Worm.isWormMoving == false)
