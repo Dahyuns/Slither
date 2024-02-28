@@ -14,26 +14,112 @@ namespace WiggleQuest
             Upper,      //위
             Right,      //오른
             Left,       //왼
-            Lower       //아래 
+            Lower,       //아래 
+            None
         }
 
         // [Field Tile 생성부분]
 
+        //참조
+        public FieldTile fieldTile;
+
+        private float startPosX;          //  ㅣ
+        private float midStartPosX;       //    ㅣ
+        private float midEndPosX;         //      ㅣ
+        private float endPosX;            //        ㅣ
+
+        private float endPosY;            //  ㅡ ㅡ ㅡ
+        private float midEndPosY;         //     ㅡ 
+        private float midStartPosY;       //     ㅡ 
+        private float startPosY;          //  ㅡ ㅡ ㅡ
+
+        float TilePosX;
+        float TilePosY;
+
+        private void Start()
+        {
+
+        }
+
+        private void Update()
+        {
+            TilePosX = fieldTile.transform.position.x;
+            TilePosY = fieldTile.transform.position.y;
+            //만약 맵타일이 움직이면 
+            //if (MapTile.isMoving == true)
+            {
+                //그만큼 얘도 움직임 (크기가 다름, 얘도 체크하고 움직여야함)
+                CreateTileMove();
+
+                //체크후 필드 생성
+
+                switch (Check())
+                {
+                    case TilePos.Upper:
+                        CeateTile(TilePos.Upper);
+                        break;
+                    case TilePos.Right:
+                        CeateTile(TilePos.Right);
+                        break;
+                    case TilePos.Left:
+                        CeateTile(TilePos.Left);
+                        break;
+                    case TilePos.Lower:
+                        CeateTile(TilePos.Lower);
+                        break;
+                    case TilePos.None:
+                        break;
+
+                }
+            }
+        }
+
+        void CreateTileMove()
+        {
+
+        }
+
+        void CeateTile(TilePos tilePos)
+        {
+            //위치에따른 생성
+            FieldTile newfieldTile = Instantiate(fieldTile);
+        }
+
+        TilePos Check() 
+        {
+            //위
+            if (TilePosX > startPosX && TilePosX < endPosX &&
+                TilePosY > midEndPosY && TilePosX < endPosY)
+            {
+                return TilePos.Upper;
+            }
 
 
-        //모든 좌표를 검사 - 겹치는 좌표 존재, 변수 많아짐.. 어쩌지?
-
-        //upper 좌표 4개?
-        private float createPosX1;
-        private float createPosX2;
-        private float createPosY1;
-        private float createPosY2;
-        //Right 좌표 4개?
-        //Left  좌표 4개?
-        //Lower 좌표 4개?
+            //오른
+            else if (TilePosX > midEndPosX && TilePosX < endPosX &&
+                    TilePosY > startPosY && TilePosX < endPosY)
+            {
+                return TilePos.Right;
+            }
 
 
-        //가독성 떨어지지 않고 가장 효율적인 방법을 찾고싶다!!!!!!!!!!!!!!!!!!!!!
+            //왼
+            else if (TilePosX > startPosX && TilePosX < midStartPosX &&
+                    TilePosY > startPosY && TilePosX < endPosY)
+            {
+                return TilePos.Left;
+            }
+
+
+            //아래
+            else if (TilePosX > startPosX && TilePosX < endPosX &&
+                    TilePosY > startPosY && TilePosX < midStartPosY)
+            {
+                return TilePos.Lower;
+            }
+
+            else { return TilePos.None; }
+        }
 
         /* 
         collider 닿으면 Create false반환?      */
