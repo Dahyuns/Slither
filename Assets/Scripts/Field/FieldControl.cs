@@ -6,14 +6,14 @@ namespace WiggleQuest
     {
         //추가구현
         //생성 기준 타일 'Create Field' 구역내에 Field Tile생성
-        //맵타일이 맵타일 사이즈만큼 움직이면, Create Field가 Move
+        //맵타일이 맵타일 사이즈(현재4번)만큼 움직이면, Create Field가 Move
         //                 ㄴ 움직인 곳이 Field Tile 좌표와 동일한지 확인 (생성 위치 리스트에 저장? - 적절한 탐색 알고리즘 찾아보기), 없으면 생성
 
         enum TilePos
         {
-            Upper,      //위
-            Right,      //오른
-            Left,       //왼
+            Upper,       //위
+            Right,       //오른
+            Left,        //왼
             Lower,       //아래 
             None
         }
@@ -21,38 +21,46 @@ namespace WiggleQuest
         // [Field Tile 생성부분]
 
         //참조
-        public FieldTile fieldTile;
+        public GameObject fieldTilePrefab;
+        public GameObject gridCanvas;
+        public Transform Transform;
 
-        private float startPosX;          //  ㅣ
-        private float midStartPosX;       //    ㅣ
-        private float midEndPosX;         //      ㅣ
-        private float endPosX;            //        ㅣ
+        private GameObject[] createTiles;
+        private MapTile mapTileControl;
 
-        private float endPosY;            //  ㅡ ㅡ ㅡ
-        private float midEndPosY;         //     ㅡ 
-        private float midStartPosY;       //     ㅡ 
-        private float startPosY;          //  ㅡ ㅡ ㅡ
+        private Vector2 startPosX = new(0, 0);   
+        private Vector2 midStartPosX = new(0, 0);      
+        private Vector2 midEndPosX = new(0, 0);        
+        private Vector2 endPosX = new(0, 0);  
+        private Vector2 endPosY = new(0, 0);            
+        private Vector2 midEndPosY = new(0, 0);         
+        private Vector2 midStartPosY = new(0, 0);       
+        private Vector2 startPosY = new(0, 0);          
 
         float TilePosX;
         float TilePosY;
 
+       // private Tuple<TilePos>;
+
         private void Start()
         {
-
+            createTiles = transform.GetComponentsInChildren<GameObject>();
+            mapTileControl = gridCanvas.GetComponent<MapTile>();
         }
 
         private void Update()
         {
-            TilePosX = fieldTile.transform.position.x;
-            TilePosY = fieldTile.transform.position.y;
+            TilePosX = fieldTilePrefab.transform.position.x;
+            TilePosY = fieldTilePrefab.transform.position.y;
+
+
             //만약 맵타일이 움직이면 
-            //if (MapTile.isMoving == true)
+            if (mapTileControl.CameraMoveCheck() == true)
             {
                 //그만큼 얘도 움직임 (크기가 다름, 얘도 체크하고 움직여야함)
                 CreateTileMove();
 
-                //체크후 필드 생성
-
+                //어디로 움직였는지 체크후 필드 생성
                 switch (Check())
                 {
                     case TilePos.Upper:
@@ -82,9 +90,11 @@ namespace WiggleQuest
         void CeateTile(TilePos tilePos)
         {
             //위치에따른 생성
-            FieldTile newfieldTile = Instantiate(fieldTile);
+            GameObject newTile = Instantiate(fieldTilePrefab);
+            FieldTile newfieldTile = newTile.GetComponent<FieldTile>();
         }
 
+        //완
         TilePos Check() 
         {
             //위
@@ -121,8 +131,8 @@ namespace WiggleQuest
             else { return TilePos.None; }
         }
 
-        /* 
-        collider 닿으면 Create false반환?      */
+        /* collider
+        */
 
     }
 }

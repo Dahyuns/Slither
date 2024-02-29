@@ -107,11 +107,17 @@ namespace WiggleQuest
             }
 
 
-            //치트키
+            //[치트키] : 골드 up
             if (Input.GetKey(KeyCode.M))
             {
                 gold += 10000;
             }
+            //[치트키] : 꼬리 개수 up
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+                heart++;
+            //[치트키] : 꼬리 개수 down
+            if (Input.GetKeyDown(KeyCode.LeftControl))
+                heart--;
 
         }
 

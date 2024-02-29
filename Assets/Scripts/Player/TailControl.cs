@@ -39,14 +39,7 @@ namespace WiggleQuest
         private void Update()
         {
             //현재 레벨 = 생성해야하는 꼬리 개수
-            //tailCount = Worm.Level;
-
-            //[치트키] : 꼬리 개수 up
-            if (Input.GetKeyDown(KeyCode.LeftShift))
-                tailCount++;
-            //[치트키] : 꼬리 개수 down
-            if (Input.GetKeyDown(KeyCode.LeftControl))
-                tailCount--;
+            tailCount = Worm.Level;
 
             switch (CheckCount())
             {

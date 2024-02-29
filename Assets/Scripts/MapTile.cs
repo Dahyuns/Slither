@@ -8,6 +8,7 @@ namespace WiggleQuest
         Z_Plus, Z_Minus,
         None
     }*/
+
     public class MapTile : MonoBehaviour
     {
         //맵타일 프리팹
@@ -68,7 +69,7 @@ namespace WiggleQuest
             cameradisZ = cameraTransform.position.z - camerabeforePosZ;
 
             //이동거리가 offset이상이라면
-            if (MapChecking())
+            if (CameraMoveCheck())
             {
                 //맵 이동
                 MapMoving();
@@ -76,7 +77,7 @@ namespace WiggleQuest
         }
 
         //이동거리가 offset이상이라면
-        private bool MapChecking()
+        public bool CameraMoveCheck()
         {
             if (cameradisX >= offset || cameradisX <= -offset || cameradisZ >= offset || cameradisZ <= -offset)
                 return true;
