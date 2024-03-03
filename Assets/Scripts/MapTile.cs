@@ -34,7 +34,11 @@ namespace WiggleQuest
         private float cameradisX;
         private float cameradisZ;
 
+        public int countX = 0;
+        public int countY = 0;
 
+
+        public bool isMapMoving = false;
         // 맵 9개 정사각형 모양으로 만든후,
         // 가운데 타일을 기준으로 삼고.(계속 바뀜)
         // 가운데 타일 밖으로 상하좌우 어느쪽으로 가냐에 따라서 맵타일이 그쪽에 생성
@@ -100,12 +104,14 @@ namespace WiggleQuest
                 thisPos.x += offset;
                 //이전위치 = 현재위치 저장
                 camerabeforePosX = cameraTransform.position.x;
+                countX++;
             }
             else if (cameradisX <= -offset)
             {
                 thisPos.x -= offset;
                 //이전위치 = 현재위치 저장
                 camerabeforePosX = cameraTransform.position.x;
+                countX--;
             }
 
             if (cameradisZ >= offset)
@@ -113,12 +119,14 @@ namespace WiggleQuest
                 thisPos.z += offset;
                 //이전위치 = 현재위치 저장
                 camerabeforePosZ = cameraTransform.position.z;
+                countY++;
             }
             else if (cameradisZ <= -offset)
             {
                 thisPos.z -= offset;
                 //이전위치 = 현재위치 저장
                 camerabeforePosZ = cameraTransform.position.z;
+                countY--;
             }
             #endregion
 
