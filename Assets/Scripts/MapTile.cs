@@ -77,6 +77,11 @@ namespace WiggleQuest
             {
                 //∏  ¿Ãµø
                 MapMoving();
+                isMapMoving = true;
+            }
+            else
+            {
+                isMapMoving = false;
             }
         }
 
