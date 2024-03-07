@@ -32,7 +32,8 @@ namespace WiggleQuest
             tailCount = tailStartCount;
 
             //사이즈 구해서 그 뒤에 생성 : 사이즈에 scale곱함
-            tailSize = Vector3.Scale(tailPrefab.GetComponent<MeshFilter>().sharedMesh.bounds.size, tailPrefab.transform.localScale);
+            tailSize = Vector3.Scale(tailPrefab.GetComponent<MeshFilter>().sharedMesh.bounds.size, 
+                                     tailPrefab.transform.localScale);
         }
 
         //count체크하고 메서드호출

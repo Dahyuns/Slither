@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7893707697987584227}
   - component: {fileID: 3665907854255933269}
   - component: {fileID: 5014438997845052410}
-  - component: {fileID: 8217387246476359625}
+  - component: {fileID: -5348251418328599886}
   m_Layer: 0
   m_Name: FieldTile
   m_TagString: Untagged
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8217387246476359625
+--- !u!114 &-5348251418328599886
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,11 +96,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f207a05f7ef93ca48aaaa7309a3db91a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worm: {fileID: 0}
   firePrefab: {fileID: 2902414035659360513, guid: 43ba0a26b8ec42442a5a02b79e4e1a77,
     type: 3}
   feedPrefab: {fileID: 8364759720126622469, guid: 675d6ef817533214d81984c93e0e28ff,
     type: 3}
   goldPrefab: {fileID: 53972012717379157, guid: 0f50703abc621e54f948ddc5bb146f25,
     type: 3}
-  standardDis: 20
+  standardDis: 1000
