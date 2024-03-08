@@ -102,4 +102,6 @@ MonoBehaviour:
     type: 3}
   goldPrefab: {fileID: 53972012717379157, guid: 0f50703abc621e54f948ddc5bb146f25,
     type: 3}
-  standardDis: 1000
+  standardDis: 500
+  FieldItemList: []
+  itemPosList: []

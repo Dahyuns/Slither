@@ -154,7 +154,7 @@ namespace WiggleQuest
         //      감소 - 장애물 부딪힘 => 방어력!!!
         public void SubtractHeart(float value)
         {
-            heart -= value;
+            heart -= value - (int)(  value * ( (heartAddLv * heartAddP) / 100 )  ) ;
         }
 
         // 속도 증가
@@ -172,8 +172,7 @@ namespace WiggleQuest
 
         public float MoveDis()
         {
-            float movedis = (beforeLocate - transform.position).magnitude;
-            return movedis;
+            return (beforeLocate - transform.position).magnitude;
         }
 
 

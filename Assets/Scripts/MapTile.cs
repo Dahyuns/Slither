@@ -2,13 +2,8 @@ using UnityEngine;
 
 namespace WiggleQuest
 {
-    /*public enum MoveXY
-    {
-        X_Plus, X_Minus,
-        Z_Plus, Z_Minus,
-        None
-    }*/
-
+    // 가운데 타일을 기준으로 삼고 프리팹 생성. 상하좌우 어느쪽인가에 따라서 맵타일이 그쪽으로 이동
+    // 그리드UI사용 
     public class MapTile : MonoBehaviour
     {
         //맵타일 프리팹
@@ -37,18 +32,8 @@ namespace WiggleQuest
         public int countX = 0;
         public int countY = 0;
 
-
         public bool isMapMoving = false;
-        // 맵 9개 정사각형 모양으로 만든후,
-        // 가운데 타일을 기준으로 삼고.(계속 바뀜)
-        // 가운데 타일 밖으로 상하좌우 어느쪽으로 가냐에 따라서 맵타일이 그쪽에 생성
-        // 뒤에는 삭제
-        // (( 4개로 해서 좌표받는 방법도 있을듯??
-
-        //3*3 배열 생성 후 그 위치에 맞게 (그리드UI사용) 프리팹 생성
-        //가운데 기준(배열의 5번째?) 위치 넘어가면
-        //재생성?
-
+        
         void Start()
         {
             thisRect = GetComponent<RectTransform>();
@@ -92,11 +77,6 @@ namespace WiggleQuest
                 return true;
             else
                 return false;
-            /*if (cameradisX >= 10f) return MoveXY.X_Plus;
-            else if (cameradisX <= -10f) return MoveXY.X_Minus;
-            else if (cameradisZ >= 10f) return MoveXY.Z_Plus;
-            else if (cameradisZ <= -10f) return MoveXY.Z_Minus;
-            else return MoveXY.None;*/
         }
 
         private void MapMoving()
@@ -135,26 +115,7 @@ namespace WiggleQuest
             }
             #endregion
 
-            thisRect.position = thisPos; //캔버스에적용
-            /*//if (whichMoving == MoveXY.None) return;
-            switch (whichMoving)
-            {
-                case MoveXY.X_Plus:
-                    thisPos.x += 10f;
-                    break;
-
-                case MoveXY.X_Minus:
-                    thisPos.x -= 10f;
-                    break;
-
-                case MoveXY.Z_Plus:
-                    thisPos.z += 10f;
-                    break;
-
-                case MoveXY.Z_Minus:
-                    thisPos.z -= 10f;
-                    break;
-            }*/
+            thisRect.position = thisPos; 
         }
     }
 }

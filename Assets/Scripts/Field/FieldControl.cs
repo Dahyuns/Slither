@@ -18,9 +18,9 @@ namespace WiggleQuest
         public Transform fieldTileParent; //필드타일묶음
 
         //생성위치의 중앙좌표
-        private Vector3 CreateTileCenter = new Vector3(60f, -10f, 60f);
+        private Vector3 createTileCenter;
 
-        //중앙좌표로부터의 각 좌표 - 필드타일 생성위치, 중앙좌표 'CreateTileCenter'으로부터의 거리(로컬)
+        //중앙좌표로부터의 각 좌표 - 필드타일 생성위치, 중앙좌표 'createTileCenter'으로부터의 거리(로컬)
         private Vector3[] creatTilesPos = new Vector3[]
         { new Vector3(-40f, 0f, 40f), new Vector3(0f, 0f, 40f), new Vector3(40f, 0f, 40f),
           new Vector3(-40f, 0f, 0),                             new Vector3(40f, 0f, 0f) ,
@@ -43,9 +43,14 @@ namespace WiggleQuest
             offset = 10 * mapSizeMag;
             tilePOSDir = TilePos.None;
 
+            //생성위치의 중앙좌표
+            createTileCenter = new Vector3(60f, -10f, 60f);
+
+
+
             //처음 위치에 생성 : 중앙 1개 + 측면 8개
-            CreateFieldTile(CreateTileCenter);
-            CheckNCreateField();
+            CreateField(createTileCenter);
+            CheckNCreate();
         }
 
         private void Update()
@@ -61,7 +66,7 @@ namespace WiggleQuest
 
                     //움직인 위치 기준으로 그곳에 FieldTile이 있는지 확인 후
                     //'없다면' 생성
-                    CheckNCreateField();
+                    CheckNCreate();
                     isCreateTileMove = true;
                 }
                 else
@@ -110,18 +115,18 @@ namespace WiggleQuest
             switch (tilePOSDir)
             {
                 case TilePos.Up:
-                    CreateTileCenter.z += offset;
+                    createTileCenter.z += offset;
                     break;
                 case TilePos.Down:
-                    CreateTileCenter.z -= offset;
+                    createTileCenter.z -= offset;
                     break;
 
 
                 case TilePos.Right:
-                    CreateTileCenter.x += offset;
+                    createTileCenter.x += offset;
                     break;
                 case TilePos.Left:
-                    CreateTileCenter.x -= offset;
+                    createTileCenter.x -= offset;
                     break;
             }
 
@@ -129,23 +134,23 @@ namespace WiggleQuest
             tilePOSDir = TilePos.None;
         }
 
-        void CheckNCreateField()
+        void CheckNCreate()
         {
             for (int i = 0; i < creatTilesPos.Length; i++) //createTile 위치 개수
             {
                 //타일의 월드 위치 = 월드내 중심 + 각 로컬 위치
-                Vector3 eachTilePos = CreateTileCenter + creatTilesPos[i];
+                Vector3 eachTilePos = createTileCenter + creatTilesPos[i];
 
-                if (CheckFieldTile(eachTilePos)) //해당 위치에 타일이 있는지 검사
-                {
-                    CreateFieldTile(eachTilePos); //없으면 생성
+                if (CheckNullField(eachTilePos)) //해당 위치에 타일이 있는지 검사
+                { 
+                    CreateField(eachTilePos); //없으면 생성
                 }
             }
         }
-        
+
         //true반환시 field Tile 생성
-        bool CheckFieldTile(Vector3 newTilePos) 
-        {    
+        bool CheckNullField(Vector3 newTilePos)
+        {
             //저장된 좌표(만들어진 타일의 좌표)와 동일하다면 만들지X
             for (int i = 0; i < fieldTiles.Count; i++)
             {
@@ -154,22 +159,25 @@ namespace WiggleQuest
                     return false;
                 }
             }
-            
+
             //저장된 좌표에 새로운 좌표가 없으면 만든다.
             return true;
         }
 
-        void CreateFieldTile(Vector3 newTilePos)
+        void CreateField(Vector3 newTilePos)
         {
-            GameObject newTile = Instantiate(fieldTilePrefab, newTilePos, Quaternion.identity,fieldTileParent);
+            GameObject newTile = Instantiate(fieldTilePrefab, newTilePos, Quaternion.identity, fieldTileParent);
             FieldTile newfieldTile = newTile.GetComponent<FieldTile>();
 
             if (newfieldTile != null) //제대로 생성됐다면
             {
                 //리스트에 추가
                 fieldTiles.Add(newTilePos);
-                //필드내 아이템들 생성
-                //newfieldTile.CreateItems();
+
+                if (fieldTiles.Count == 1) 
+                    return;
+                else  //필드내 아이템들 생성
+                    newfieldTile.CreateItems();
             }
         }
     }
