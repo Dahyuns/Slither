@@ -8,81 +8,77 @@ namespace WiggleQuest
         Up, Down, Left, Right, None
     }
 
+    // Create Tile 이동 및 위치에 따른 Field Tile 생성
     public class FieldControl : MonoBehaviour
     {
-        // [Create Tile 이동 및 위치에 따른 Field Tile 생성]
 
         //참조
         public MapTile mapTileControl; //이동거리 계산을 위한 참조
         public GameObject fieldTilePrefab;
-        public Transform fieldTileParent; //필드타일묶음
+        public Transform fieldTileParent; //Hierarchy내 필드타일 묶음
 
-        //생성위치의 중앙좌표
-        private Vector3 createTileCenter;
+        //[CreateTile 생성,삭제]
+        [SerializeField] private float mapSizeMag = 4;          //맵사이즈와의 배율
+        private float offset;                                   //CreateTile 이동 크기 (1번당)
+        private TilePos tilePOSDir;                             //CreateTile 이동 방향, None은 빈값
 
-        //중앙좌표로부터의 각 좌표 - 필드타일 생성위치, 중앙좌표 'createTileCenter'으로부터의 거리(로컬)
+        public bool isCreateTileMove = false;                   //CreateTile 이동 여부
+
+        //[FieldTile 생성, 삭제]
+        private Vector3 createTileCenter;                       //생성위치의 중앙좌표
         private Vector3[] creatTilesPos = new Vector3[]
         { new Vector3(-40f, 0f, 40f), new Vector3(0f, 0f, 40f), new Vector3(40f, 0f, 40f),
           new Vector3(-40f, 0f, 0),                             new Vector3(40f, 0f, 0f) ,
-          new Vector3(-40f, 0f, -40f),new Vector3(0f, 0f, -40f),new Vector3(40f, 0f, -40f) };
+          new Vector3(-40f, 0f, -40f),new Vector3(0f, 0f, -40f),new Vector3(40f, 0f, -40f) };     //필드타일 생성위치 : 중앙좌표로부터의 좌표(로컬)
 
-        //FieldTile위치 저장 - FieldTile삭제시 같이 삭제!
-        public List<Vector3> fieldTiles = new List<Vector3>();
+        public List<Vector3> fieldTiles = new List<Vector3>();  //FieldTile 위치 저장 (FieldTile삭제시 같이 삭제됨)
+        public float standardDis = 1000f;                       // FieldTile 삭제 기준 거리
 
-        //맵사이즈와의 배율
-        [SerializeField] private float mapSizeMag = 4;
-
-        private float offset; //CreateTile위치변경단위
-
-        private TilePos tilePOSDir; //CreateTile 이동 방향, None은 빈값
-
-        public bool isCreateTileMove = false;
+        //FieldTile 하나당 아이템 생성 최대 개수 (수량 조절 가능)
+        public int numFire = 5;
+        public int numGold = 1;
+        public int numFeed = 4;
 
         private void Start()
         {
             offset = 10 * mapSizeMag;
             tilePOSDir = TilePos.None;
+            createTileCenter = new Vector3(60f, -10f, 60f); //생성위치의 중앙좌표
 
-            //생성위치의 중앙좌표
-            createTileCenter = new Vector3(60f, -10f, 60f);
-
-
-
-            //처음 위치에 생성 : 중앙 1개 + 측면 8개
+            //[첫 위치 FieldTile 생성] : 중앙 1개 + 측면 8개
             CreateField(createTileCenter);
             CheckNCreate();
         }
 
         private void Update()
         {
-            //none으로 다시 초기화 전까지 실행X(코루틴사용한다면?) 
-            if (tilePOSDir == TilePos.None) // mapTileControl.isMapMoving == true && 
+            //none으로 다시 초기화 전까지 실행X
+            if (tilePOSDir == TilePos.None)
             {
                 //만약 맵이 맵크기의 4배만큼 움직였다면?
                 if (CheckMoveCount())
                 {
-                    //CreateTile도 움직임 + 얼마나 움직였는지 초기화
+                    //CreateTile도 움직임 + 얼마나 움직였는지(Count) 초기화
                     MoveCreateTile();
 
-                    //움직인 위치 기준으로 그곳에 FieldTile이 있는지 확인 후
-                    //'없다면' 생성
+                    //움직인 위치 기준으로 그곳에 FieldTile이 있는지 확인 후, '없다면' 생성
                     CheckNCreate();
+
                     isCreateTileMove = true;
                 }
                 else
                     isCreateTileMove = false;
-
             }
         }
 
 
-        //얼마나 움직였는지 체크, 어느방향인지 저장/ 맵 move카운트 초기화 (크기가 다름)
+         
         bool CheckMoveCount()
         {
-            if (mapTileControl.countX >= mapSizeMag)
+            if (mapTileControl.countX >= mapSizeMag)        //얼마나 움직였는지 체크
             {
-                tilePOSDir = TilePos.Right;
-                mapTileControl.countX -= (int)mapSizeMag;
+                tilePOSDir = TilePos.Right;                 //어느방향인지 저장
+                mapTileControl.countX -= (int)mapSizeMag;   //맵 move카운트 초기화 (크기가 다름)
                 return true;
             }
             else if (mapTileControl.countX <= -mapSizeMag)
@@ -111,8 +107,7 @@ namespace WiggleQuest
 
         void MoveCreateTile()
         {
-            //움직였다면 그만큼 얘도 움직임 + 얼마나 움직였는지 초기화
-            switch (tilePOSDir)
+            switch (tilePOSDir) //방향에따라 이동
             {
                 case TilePos.Up:
                     createTileCenter.z += offset;
@@ -120,7 +115,6 @@ namespace WiggleQuest
                 case TilePos.Down:
                     createTileCenter.z -= offset;
                     break;
-
 
                 case TilePos.Right:
                     createTileCenter.x += offset;
@@ -130,7 +124,7 @@ namespace WiggleQuest
                     break;
             }
 
-            //어디로 움직였는지 초기화 - none으로 재설정 , 예외가능성
+            //어디로 움직였는지 초기화 - none으로 재설정
             tilePOSDir = TilePos.None;
         }
 
@@ -174,10 +168,11 @@ namespace WiggleQuest
                 //리스트에 추가
                 fieldTiles.Add(newTilePos);
 
+                //시작지점 생성X (충돌 가능성)
                 if (fieldTiles.Count == 1) 
                     return;
                 else  //필드내 아이템들 생성
-                    newfieldTile.CreateItems();
+                    StartCoroutine(newfieldTile.CreateItems());
             }
         }
     }

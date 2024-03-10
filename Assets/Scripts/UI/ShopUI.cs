@@ -14,9 +14,9 @@ namespace WiggleQuest
         public GameObject ShopMenu; //상점 UI
 
         //가격 - 밸런스조절부분
-        [SerializeField] private int[] priceHeart = { 100, 200, 300 };
-        [SerializeField] private int[] priceGold  = { 100, 200, 300 };
-        [SerializeField] private int[] priceSpeed = { 100, 200, 300 };
+        [SerializeField] private int[] priceHeart = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
+        [SerializeField] private int[] priceGold  = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
+        [SerializeField] private int[] priceSpeed = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
         [SerializeField] private int[] priceDef   = { 100, 200, 300 };
 
         //상점에 들어갔는지?

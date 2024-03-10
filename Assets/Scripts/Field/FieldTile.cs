@@ -1,7 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Timeline;
 
 
 namespace WiggleQuest
@@ -11,11 +10,8 @@ namespace WiggleQuest
         //추가구현?
         //저장해놨다가 다시 가져가는 방법? -  오브젝트 풀링이라고 하던가?
         //                              this.gameObject.SetActive(false);
-        //랜덤한 좌표 겹치지않게 만들기
-
-        //FieldTile : 해당 필드타일 생성시 규칙에 따라 랜덤으로 아이템 생성
-        //             feed gold trap(fire,...) 위치 랜덤/ 수량 조절 가능하게 /
-        //            플레이어에서 일정거리 멀어지면 (필드 위 모든 아이템과 함께)삭제
+        //필드 아이템의 좌표 서로 겹치지않게 만들기 : sin그래프의 x좌표 리스트 만들기! x겹치지 않기
+        // ㄴsin그래프 사용 200sin ? x = y   : ?는 주기에 곱하는 배수 , 원점은 시작지점
 
         //참조 
         private GameObject mainCamera;
@@ -28,30 +24,21 @@ namespace WiggleQuest
         public GameObject feedPrefab;
         public GameObject goldPrefab;
 
-        //필드당 생성 개수(최대)
-        [SerializeField] private int numFire = 5;
-        [SerializeField] private int numGold = 1;
-        [SerializeField] private int numFeed = 4;
-
-        //삭제 기준 거리
-        [SerializeField] private float standardDis = 1000f;
-
         private Vector3 thisSize;
+
+        //필드 드롭 간격 (커질수록 촘촘해짐, 기본은 1)
+        public float cycleMulti = 1;
 
         //해당 필드내 아이템 저장 리스트
         [SerializeField] private List<GameObject> FieldItemList = new List<GameObject>();
         [SerializeField] private List<Vector3> itemPosList;
 
-        //feed Mat 저장
-        Material[] mat;
-
         private void Awake()
         {
-            mainCamera = GameObject.Find("Main Camera");
             fieldControl = GameObject.Find("Field").GetComponent<FieldControl>();
+            mainCamera = GameObject.Find("Main Camera");
             groupTrap = GameObject.Find("Trap");
             groupDrop = GameObject.Find("Drop");
-           // mat = feedPrefab.GetComponent<Renderer>().materials;
         }
 
         private void Update()
@@ -67,7 +54,7 @@ namespace WiggleQuest
         private bool CheckDis()
         {
             float distance = (transform.position - mainCamera.transform.position).magnitude;
-            if (distance > standardDis)
+            if (distance > fieldControl.standardDis)
                 return true;
             else
                 return false;
@@ -76,7 +63,7 @@ namespace WiggleQuest
         private void DestroyField()
         {
             //전부 삭제
-            
+
             //필드내 아이템 삭제
             for (int i = 0; i < FieldItemList.Count; ++i)
             {
@@ -98,11 +85,15 @@ namespace WiggleQuest
 
 
         //필드위에 아이템 생성 + 리스트에 저장    (규칙에따라랜덤)
-        public void CreateItems()
+        public IEnumerator CreateItems()
         {
             //필드 타일 사이즈(거리 측정용)
             thisSize = Vector3.Scale(GetComponent<MeshFilter>().sharedMesh.bounds.size,
                                          transform.localScale);
+
+            int numFire = fieldControl.numFire;
+            int numGold = fieldControl.numGold;
+            int numFeed = fieldControl.numFeed;
 
             //필드당 * ~ *개 생성
             numFire = Random.Range(1, numFire);
@@ -140,11 +131,12 @@ namespace WiggleQuest
                     numGold--;
                 }
 
-
                 //랜덤한 좌표 생성 //겹치지않게 만들기
-                float numX = Random.Range(0, thisSize.x);
-                float numZ = Random.Range(0, thisSize.z);
+
                 Vector3 thisPos = this.transform.position - (thisSize / 2); //왼쪽아래 기준
+                                                                            // Sin함수 시작 지점(=z변의 길이의 반) * SIN함수 (총 거리의 배수 * 랜덤한 x값) + 원점이동값(=z변의 길이의 반)
+                float numX = RanX();
+                float numZ = (thisSize.z / 2) * Mathf.Sin(cycleMulti * numX) + (thisSize.z / 2);
 
                 //생성한 좌표, 좌표 리스트에 추가
                 itemPosList.Add(new Vector3(thisPos.x + numX, 0f, thisPos.z + numZ));
@@ -152,11 +144,34 @@ namespace WiggleQuest
                 //생성 아이템 위치 조정
                 FieldItemList[i].transform.position = itemPosList[i];
 
+
+
                 //생성해야할 개수 삭제
                 totalList--;
+                yield return null;
             }
         }
 
+        private float RanX()
+        {
+            float numX = Random.Range(0, thisSize.x);
+            bool isNullPos = false;
 
+            while (isNullPos == false)
+            {
+                foreach (Vector3 itempos in itemPosList)
+                {
+                    if (numX < itempos.x + 1 || numX > itempos.x - 1)
+                    {
+                        continue;
+                    }
+                }
+                isNullPos = true;
+                return numX;
+            }
+
+            Debug.Log("FIELDTILE 함수 버그");
+            return 0;
+        }
     }
 }
