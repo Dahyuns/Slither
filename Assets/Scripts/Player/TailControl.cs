@@ -55,13 +55,12 @@ namespace WiggleQuest
                     break;
 
                 case Count.Down:
-                    DestroyTail();
-                    if (tailCount < 0)
+                    if (tailMakedCount == 0)
                     {
-                        Debug.Log("더 이상 삭제할 수 없습니다. : GameOver");
-                        //gameover
+                        //Debug.Log("더 이상 삭제할 수 없습니다. : GameOver");
                         return;
                     }
+                    DestroyTail();
                     break;
             }
         }
@@ -154,15 +153,23 @@ namespace WiggleQuest
 
         void DestroyTail()
         {
-            //Head를 전의 꼬리로
-            headTail = headTail.beforeTail;
-            //이번꼬리 삭제    
-            Destroy(lastTail.gameObject);
+            //머리만 남았을 경우엔 삭제하지 않는다.
+            if (tailMakedCount != 0)
+            {
+                //Head를 전의 꼬리로
+                headTail = headTail.beforeTail;
+                //이번꼬리 삭제    
+                Destroy(lastTail.gameObject);
 
-            //삭제돼, null상태인 lastTail에 Head저장
-            lastTail = headTail;
-            //'만든' 꼬리 개수 감소
-            tailMakedCount--;
+                //삭제돼, null상태인 lastTail에 Head저장
+                lastTail = headTail;
+                //'만든' 꼬리 개수 감소
+                tailMakedCount--;
+            }
+            //else
+            //{
+            //    Debug.Log("Destroy할수없음");
+            //}
         }
     }
 }

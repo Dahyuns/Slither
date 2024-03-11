@@ -118,9 +118,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a16135e11e07514d8aa90ea1414dd43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  feedValue: 1
+  destroyEffPrefab: {fileID: 8845692350671152601, guid: 5b3deff1805a5514a8e1c725f6c5113d,
+    type: 3}
   mat:
   - {fileID: 2100000, guid: 0cb4c689d793e164c8b53bdd4174d855, type: 2}
   - {fileID: 2100000, guid: 5890dcfb1abbb2f49b39a15e7b802a43, type: 2}
   - {fileID: 2100000, guid: ff129e7839b312640a3780d2548c397d, type: 2}
   - {fileID: 2100000, guid: ef6b137588df55a4abc3d8f15341bc49, type: 2}
+  feedValue: 1
