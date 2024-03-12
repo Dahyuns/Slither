@@ -1,52 +1,68 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 namespace WiggleQuest
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] private string GameOver = "GameOver";
-        [SerializeField] private string cantMoveText = "Can't Move Animore...";
-        [SerializeField] private float waitTimer = 3f;
 
+        //참조
+        public Worm worm;
         [SerializeField] private GameObject GameOverUI;
         [SerializeField] private TextMeshProUGUI cantMoveTextUI;
 
+        private string sceneGO = "GameOver";
+        private string cantMoveText = "Can't Move Animore...";
+        [SerializeField] private float waitTimer = 3f;
+
+        private bool isGameover = false;
+
+
         void Update()
         {
-            if(Input.GetKeyDown(KeyCode.O))
+            if(Worm.isWormDead && isGameover == false)
             {
-                StartCoroutine(ToGameOver());
+                GameOver();
             }
         }
 
-        IEnumerator ToGameOver()
+        //게임오버
+        void GameOver()
         {
+            isGameover = true;
+
+            worm.DeadWorm();
             GameOverUI.SetActive(true);
+            waitTimer = Mathf.Clamp(waitTimer, 1f, 8f);
 
-
-            yield return new WaitForSeconds(waitTimer);
-            SceneManager.LoadScene(GameOver);
+            StartCoroutine(typewriterText());
+            StartCoroutine(GotoScene(sceneGO,waitTimer));
         }
 
-        void typewriterText()
+        //해당씬으로 이동
+        IEnumerator GotoScene(string sceneName, float timer = 0f)
+        {
+            yield return new WaitForSeconds(timer);
+            SceneManager.LoadScene(sceneName);
+        }
+
+        //TEXT 타이핑연출
+        IEnumerator typewriterText()
         {
             cantMoveTextUI.text = "";
 
             char[] chars = cantMoveText.ToCharArray();
 
-            float timePerPiece = chars.Length / waitTimer;
+            float timePerPiece = (waitTimer - 1) / chars.Length;
 
-            foreach (char c in chars)
+            for (int c = 0; c < chars.Length; c++)
             {
-                
+                yield return new WaitForSeconds(timePerPiece);
+
+                cantMoveTextUI.text += chars[c];
             }
-
-
-
-
         }
     }
 }

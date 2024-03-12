@@ -16,24 +16,24 @@ namespace WiggleQuest
         private Tail headTail = null;  //연결리스트 Head
         private Tail lastTail = null; //가장 뒤의 꼬리 저장
 
-        [SerializeField]
         private int tailCount = 0;   //'생성할' 꼬리 개수
         private int tailMakedCount = 0; //'만든' 꼬리 개수
-        public int tailStartCount = 3; //'시작시'의 꼬리 개수
 
         private Vector3 tailSize;
+        private Vector3 faceSize;
+        public static Vector3 firstTailPos;
 
         //코루틴 실행 조건
         private bool isAddingTail = false;
 
         private void Start()
         {
-            //초기화 : '생성할' 꼬리 개수 = '시작시'의 꼬리 개수
-            tailCount = tailStartCount;
-
             //사이즈 구해서 그 뒤에 생성 : 사이즈에 scale곱함
             tailSize = Vector3.Scale(tailPrefab.GetComponent<MeshFilter>().sharedMesh.bounds.size, 
                                      tailPrefab.transform.localScale);
+            //얼굴 사이즈
+            faceSize = Vector3.Scale(wormFace.GetComponent<MeshFilter>().sharedMesh.bounds.size,
+                                                                 wormFace.transform.localScale);
         }
 
         //count체크하고 메서드호출
@@ -67,7 +67,7 @@ namespace WiggleQuest
 
         Count CheckCount()
         {
-            //꼬리수가 만들어져있는 수보다 적으면
+            //꼬리수가 만들어져있는 수보다 
             int countValue = tailCount - tailMakedCount;
 
             if (countValue == 0)
@@ -79,7 +79,7 @@ namespace WiggleQuest
             else //if (countValue < 0)
                 return Count.Down;
         }
-
+        
         //[2]연결리스트 노드활용  
         IEnumerator AddTail()
         {
@@ -96,21 +96,18 @@ namespace WiggleQuest
                 //얼굴이 전의 꼬리임
                 newtail.beforeTail = wormFace.GetComponent<Tail>();
 
-                //얼굴 사이즈
-                Vector3 faceSize = Vector3.Scale(wormFace.GetComponent<MeshFilter>().sharedMesh.bounds.size,
-                                                                     wormFace.transform.localScale);
                 // 방향 랜덤 조절
                 // 여기는 원점 기준! 0<x<r , 0<y<r 
                 float r = tailSize.x / 2 + faceSize.x / 2; //반지름
-                float x = Random.Range(0f, -r); // x좌표(2사분면)
-                //y = (루트) r2 - x2
+                float x = Random.Range(0f, r); // x좌표(1,4사분면)
+                //y = (루트) r2 - x2 (4사분면)
                 float y = Mathf.Sqrt(Mathf.Pow(r, 2) - Mathf.Pow(x, 2));
 
-                //new꼬리 좌표
-                Vector3 newPos = wormFace.transform.position + new Vector3(-x, 0, -y);
+                //new꼬리 (: 기존좌표에 더할 새로운 좌표)
+                firstTailPos = new Vector3(x, 0, -y);
 
                 //이번 꼬리의 위치는? : 얼굴 위치에 + 꼬리 사이즈 (랜덤위치 / 4사분면)
-                newtail.transform.position = newPos;
+                newobj.transform.position = wormFace.transform.position + firstTailPos;
             }
 
             // 만든 꼬리가 있다면 == beforeTail이 존재한다면
@@ -130,7 +127,7 @@ namespace WiggleQuest
                     dir = Vector3.ClampMagnitude(dir, tailSize.x);
                 }
 
-                newtail.transform.position = newtail.beforeTail.transform.position + dir;
+                newobj.transform.position = newtail.beforeTail.transform.position + dir;
             }
             //예외처리
             else if (tailMakedCount < 0)

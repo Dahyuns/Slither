@@ -100,7 +100,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -125,4 +125,4 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 5890dcfb1abbb2f49b39a15e7b802a43, type: 2}
   - {fileID: 2100000, guid: ff129e7839b312640a3780d2548c397d, type: 2}
   - {fileID: 2100000, guid: ef6b137588df55a4abc3d8f15341bc49, type: 2}
-  feedValue: 1
+  feedValue: 0.5

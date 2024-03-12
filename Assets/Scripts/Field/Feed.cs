@@ -7,7 +7,7 @@ namespace WiggleQuest
         public GameObject destroyEffPrefab;
         public Material[] mat = new Material[4];
 
-        [SerializeField] private int feedValue = 1;
+        [SerializeField] private float feedValue = 0.5f;
 
         private void Awake()
         {
@@ -20,7 +20,7 @@ namespace WiggleQuest
             gameObject.GetComponent<MeshRenderer>().material = mat[num];
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider collision)
         {
 
             Worm worm = collision.gameObject.GetComponent<Worm>();

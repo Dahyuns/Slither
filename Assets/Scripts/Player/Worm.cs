@@ -83,6 +83,7 @@ namespace WiggleQuest
 
         //다른 코드에 가져갈거
         public static bool isWormMoving = false;
+        public static bool isWormDead = false;
 
         private void Start()
         { 
@@ -95,6 +96,14 @@ namespace WiggleQuest
 
         private void Update()
         {
+            //죽음처리
+            if (heart <= 0)
+            {
+                isWormDead = true;
+                return;
+            }
+
+
             if (moveDir != Vector3.zero)
             {
                 transform.Translate(moveDir.normalized * Time.deltaTime * Speed, Space.World);
@@ -154,7 +163,14 @@ namespace WiggleQuest
         //      감소 - 장애물 부딪힘 => 방어력!!!
         public void SubtractHeart(float value)
         {
-            heart -= value - (int)(  value * ( (heartAddLv * heartAddP) / 100 )  ) ;
+            float newvalue = heart - value - (int)(value * ((heartAddLv * heartAddP) / 100));
+            if (newvalue < 0)
+            {
+                heart = 0;
+                DeadWorm();
+                return;
+            }
+            heart = newvalue ;
         }
 
         // 속도 증가
@@ -173,6 +189,13 @@ namespace WiggleQuest
         public float MoveDis()
         {
             return (beforeLocate - transform.position).magnitude;
+        }
+
+        //Death 처리 : 속도 0만들기
+        public void DeadWorm()
+        {
+            speed = 0;
+            isWormMoving = false;
         }
 
 

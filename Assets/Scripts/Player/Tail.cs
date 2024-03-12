@@ -4,9 +4,6 @@ namespace WiggleQuest
 {
     public class Tail : MonoBehaviour
     {
-        //추가구현
-        //버벅임 줄이기 (코루틴?
-
         // //////////////////생성부분//////////////////////////////////
         // 연결리스트 사용
         public Tail beforeTail;
@@ -14,26 +11,12 @@ namespace WiggleQuest
 
 
         // //////////////////움직이기//////////////////////////////////
-
-        //before과 this사이 거리
-        private float betweenDis;
-
-        //worm이 움직인 거리
-        private float moveDis;
-        
         //참조
-        private Worm worm;
+        private TailControl tailControl;
 
-        private void Start()
-        {
-            //얼굴빼고 모든 꼬리 '초기화'
-            if (beforeTail != null)
-            {
-                //앞과 this의 거리 float
-                betweenDis = 0.2f; //(beforeTail.transform.position - this.transform.position).magnitude;
-                worm = GameObject.Find("Worm").GetComponent<Worm>();
-            }
-        }
+        //before과 this사이 기준거리
+        private float betweenDis;
+        Vector3 dir;
 
 
         private void Update()
@@ -41,10 +24,20 @@ namespace WiggleQuest
             //얼굴빼고 모든 꼬리 동작
             if (beforeTail != null)
             {
-                if (Worm.isWormMoving == true)
-                {
-                    moveDis = worm.MoveDis();
+                dir = (beforeTail.transform.position - this.transform.position);
 
+                if (tailNumber > 1) //tailNumber가 1보다 클때 기준거리
+                {
+                    betweenDis = 0.2f;
+                }
+                else if (tailNumber == 1) //tailNumber가 1일때 기준거리
+                {
+                    betweenDis = (TailControl.firstTailPos).magnitude;
+                }
+
+                //앞꼬리와의 거리가 기준 거리보다 짧다면
+                if (dir.magnitude > betweenDis)
+                {
                     MoveTail();
                 }
             }
@@ -52,12 +45,16 @@ namespace WiggleQuest
 
         void MoveTail()
         {
-            //[1]frontTail.Movedistance 만큼 보간이동(t가 이동한거리 / [둘 사이의 거리])
-            Vector3 dir = (beforeTail.transform.position - this.transform.position);
-            if (dir.magnitude > betweenDis)
-            {
-                this.transform.position += dir.normalized * moveDis * Worm.Speed * Time.deltaTime;
-            }
+            //[1]
+            this.transform.position += dir.normalized * Worm.Speed * Time.deltaTime;
+
+            /*[2]frontTail.Movedistance 만큼 보간이동(t가 이동한거리 / [둘 사이의 거리])
+             * 
+             * worm이 움직인 거리
+             * private float wormMoveDis;
+             * 
+             * public float MoveDis() : Worm
+              {    return (beforeLocate - transform.position).magnitude; }  */
         }
     }
 }

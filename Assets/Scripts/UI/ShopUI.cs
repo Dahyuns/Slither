@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace WiggleQuest
 {
@@ -34,6 +35,12 @@ namespace WiggleQuest
         }
         private void Update()
         {
+            if (Worm.isWormDead)
+            {
+                ShopButton.GetComponent<Button>().interactable = false;
+                return;
+            }
+
             //상점 안에 들어갔나?
             if (isInShop)
             {
