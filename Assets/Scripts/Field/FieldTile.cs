@@ -39,6 +39,12 @@ namespace WiggleQuest
             mainCamera = GameObject.Find("Main Camera");
             groupTrap = GameObject.Find("Trap");
             groupDrop = GameObject.Find("Drop");
+            Debug.Log(fieldControl.fieldTiles.Count);
+            //시작지점 생성X (충돌 가능성)
+            if (fieldControl.fieldTiles.Count == 0)
+                return;
+            else  //필드내 아이템들 생성
+                StartCoroutine(CreateItems());
         }
 
         private void Update()
@@ -96,9 +102,9 @@ namespace WiggleQuest
             int numFeed = fieldControl.numFeed;
 
             //필드당 * ~ *개 생성
-            numFire = Random.Range(1, numFire);
-            numGold = Random.Range(1, numGold);
-            numFeed = Random.Range(1, numFeed);
+            numFire = Random.Range(0, numFire);
+            numGold = Random.Range(0, numGold);
+            numFeed = Random.Range(0, numFeed);
 
             //총 개수
             int totalList = numFeed + numFire + numGold;

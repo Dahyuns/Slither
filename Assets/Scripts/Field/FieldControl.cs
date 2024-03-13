@@ -5,13 +5,12 @@ namespace WiggleQuest
 {
     enum TilePos //타일 move시 쓰임
     {
-        Up, Down, Left, Right, None
+        Up, Down, Left, Right, None//초기화용
     }
 
     // Create Tile 이동 및 위치에 따른 Field Tile 생성
     public class FieldControl : MonoBehaviour
     {
-
         //참조
         public MapTile mapTileControl; //이동거리 계산을 위한 참조
         public GameObject fieldTilePrefab;
@@ -26,10 +25,11 @@ namespace WiggleQuest
 
         //[FieldTile 생성, 삭제]
         private Vector3 createTileCenter;                       //생성위치의 중앙좌표
-        private Vector3[] creatTilesPos = new Vector3[]
+
+        private Vector3[] creatTilesPos = new Vector3[]         //필드타일 생성위치 : 중앙좌표로부터의 좌표(로컬)
         { new Vector3(-40f, 0f, 40f), new Vector3(0f, 0f, 40f), new Vector3(40f, 0f, 40f),
           new Vector3(-40f, 0f, 0),                             new Vector3(40f, 0f, 0f) ,
-          new Vector3(-40f, 0f, -40f),new Vector3(0f, 0f, -40f),new Vector3(40f, 0f, -40f) };     //필드타일 생성위치 : 중앙좌표로부터의 좌표(로컬)
+          new Vector3(-40f, 0f, -40f),new Vector3(0f, 0f, -40f),new Vector3(40f, 0f, -40f) };     
 
         public List<Vector3> fieldTiles = new List<Vector3>();  //FieldTile 위치 저장 (FieldTile삭제시 같이 삭제됨)
         public float standardDis = 1000f;                       // FieldTile 삭제 기준 거리
@@ -167,12 +167,6 @@ namespace WiggleQuest
             {
                 //리스트에 추가
                 fieldTiles.Add(newTilePos);
-
-                //시작지점 생성X (충돌 가능성)
-                if (fieldTiles.Count == 1) 
-                    return;
-                else  //필드내 아이템들 생성
-                    StartCoroutine(newfieldTile.CreateItems());
             }
         }
     }

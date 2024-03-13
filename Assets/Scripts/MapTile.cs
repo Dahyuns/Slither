@@ -9,8 +9,8 @@ namespace WiggleQuest
         //맵타일 프리팹
         public GameObject mapTilePrefab;
 
-        //참조할 카메라
-        public Transform cameraTransform;
+        //참조할 목표
+        public Transform targetTransform;
 
         //이 캔버스의 위치정보
         private RectTransform thisRect;
@@ -18,16 +18,13 @@ namespace WiggleQuest
         //맵 개수
         [SerializeField] private int mapTileX = 4;
         [SerializeField] private int mapTileY = 4;
+
         //맵 사이즈 (:간격)에 따라 이동
         [SerializeField] private float offset = 10f;
 
-        //비교대상 - 전위치, 기준이 되는 위치
-        private float camerabeforePosX;
-        private float camerabeforePosZ;
-
-        //카메라의 이동거리 - 매프레임 업데이트
-        private float cameradisX;
-        private float cameradisZ;
+        //타겟과의 거리 - 매프레임 업데이트
+        private float targetDisX;
+        private float targetDisZ;
 
         public int countX = 0;
         public int countY = 0;
@@ -37,9 +34,6 @@ namespace WiggleQuest
         void Start()
         {
             thisRect = GetComponent<RectTransform>();
-            //시작 카메라 위치 저장
-            camerabeforePosX = cameraTransform.position.x;
-            camerabeforePosZ = cameraTransform.position.z;
             #region 맵 생성
             for (int y = 0; y < mapTileY; y++)
             {
@@ -53,9 +47,9 @@ namespace WiggleQuest
 
         private void Update()
         {
-            //이동거리 = 현재위치 - 이전 위치
-            cameradisX = cameraTransform.position.x - camerabeforePosX;
-            cameradisZ = cameraTransform.position.z - camerabeforePosZ;
+            //타겟과의 거리 = 타겟 위치 - 맵(this) 위치
+            targetDisX = targetTransform.position.x - this.transform.position.x;
+            targetDisZ = targetTransform.position.z - this.transform.position.z;
 
             //이동거리가 offset이상이라면
             if (CameraMoveCheck())
@@ -73,7 +67,7 @@ namespace WiggleQuest
         //이동거리가 offset이상이라면
         public bool CameraMoveCheck()
         {
-            if (cameradisX >= offset || cameradisX <= -offset || cameradisZ >= offset || cameradisZ <= -offset)
+            if (targetDisX >= offset || targetDisX <= -offset || targetDisZ >= offset || targetDisZ <= -offset)
                 return true;
             else
                 return false;
@@ -84,33 +78,25 @@ namespace WiggleQuest
             //캔버스의 현재위치
             Vector3 thisPos = thisRect.position;
             #region offset만큼 추가
-            if (cameradisX >= offset)
+            if (targetDisX >= offset)
             {
                 thisPos.x += offset;
-                //이전위치 = 현재위치 저장
-                camerabeforePosX = cameraTransform.position.x;
                 countX++;
             }
-            else if (cameradisX <= -offset)
+            else if (targetDisX <= -offset)
             {
                 thisPos.x -= offset;
-                //이전위치 = 현재위치 저장
-                camerabeforePosX = cameraTransform.position.x;
                 countX--;
             }
 
-            if (cameradisZ >= offset)
+            if (targetDisZ >= offset)
             {
                 thisPos.z += offset;
-                //이전위치 = 현재위치 저장
-                camerabeforePosZ = cameraTransform.position.z;
                 countY++;
             }
-            else if (cameradisZ <= -offset)
+            else if (targetDisZ <= -offset)
             {
                 thisPos.z -= offset;
-                //이전위치 = 현재위치 저장
-                camerabeforePosZ = cameraTransform.position.z;
                 countY--;
             }
             #endregion
