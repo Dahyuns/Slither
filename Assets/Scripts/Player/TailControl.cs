@@ -6,7 +6,7 @@ namespace WiggleQuest
     public class TailControl : MonoBehaviour
     {
         //추가구현
-        //꼬리 랜덤 생성, 따라서 움직이게 만들기
+        //꼬리 랜덤 생성
 
         private enum Count
         { Up, Down, None }

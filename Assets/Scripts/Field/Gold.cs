@@ -5,30 +5,30 @@ namespace WiggleQuest
     public class Gold : MonoBehaviour
     {
         //참조
-        private GameObject worm;
+        private GameObject wormlook;
 
         [SerializeField] private int goldValue = 100;
 
         private void Awake()
         {
-            worm = GameObject.Find("PlayerLook");
+            wormlook = GameObject.Find("PlayerLook");
         }
 
         private void Update()
         {
-            Vector3 dir = worm.transform.position - this.transform.position;
+            Vector3 dir = wormlook.transform.position - this.transform.position;
 
             Quaternion rot = Quaternion.LookRotation(dir.normalized);
             this.transform.rotation = rot*Quaternion.Euler(50,0,0) ;
         }
 
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider collision)
         {
-            Destroy(this.gameObject);
             Worm worm = collision.gameObject.GetComponent<Worm>();
             if (worm != null)
             {
+                Destroy(this.gameObject);
                 //골드추가
                 worm.AddGold(goldValue);
             }

@@ -7,7 +7,6 @@ namespace WiggleQuest
 {
     public class GameManager : MonoBehaviour
     {
-
         //ÂüÁ¶
         public Worm worm;
         [SerializeField] private GameObject GameOverUI;

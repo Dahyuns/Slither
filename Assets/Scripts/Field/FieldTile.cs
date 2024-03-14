@@ -39,7 +39,6 @@ namespace WiggleQuest
             mainCamera = GameObject.Find("Main Camera");
             groupTrap = GameObject.Find("Trap");
             groupDrop = GameObject.Find("Drop");
-            Debug.Log(fieldControl.fieldTiles.Count);
             //시작지점 생성X (충돌 가능성)
             if (fieldControl.fieldTiles.Count == 0)
                 return;
@@ -102,9 +101,9 @@ namespace WiggleQuest
             int numFeed = fieldControl.numFeed;
 
             //필드당 * ~ *개 생성
-            numFire = Random.Range(0, numFire);
-            numGold = Random.Range(0, numGold);
-            numFeed = Random.Range(0, numFeed);
+            //numFire = Random.Range(0, numFire);
+            //numGold = Random.Range(0, numGold);
+            //numFeed = Random.Range(0, numFeed);
 
             //총 개수
             int totalList = numFeed + numFire + numGold;
@@ -117,28 +116,27 @@ namespace WiggleQuest
                 if (numFire > 0)
                 {
                     item = Instantiate(firePrefab, groupTrap.transform);
-                    FieldItemList.Add(item);
 
                     numFire--;
                 }
                 else if (numFeed > 0)
                 {
                     item = Instantiate(feedPrefab, groupDrop.transform);
-                    FieldItemList.Add(item);
 
+                    Debug.Log(numFeed);
                     numFeed--;
                 }
-                else if (numGold > 0)
+                else //if (numGold > 0)
                 {
-                    //생성 + 아이템 리스트에 추가
                     item = Instantiate(goldPrefab, groupDrop.transform);
-                    FieldItemList.Add(item);
 
+                    Debug.Log(numGold);
                     numGold--;
                 }
 
-                //랜덤한 좌표 생성 //겹치지않게 만들기
+                FieldItemList.Add(item);
 
+                //랜덤한 좌표 생성 //겹치지않게 만들기
                 Vector3 thisPos = this.transform.position - (thisSize / 2); //왼쪽아래 기준
                                                                             // Sin함수 시작 지점(=z변의 길이의 반) * SIN함수 (총 거리의 배수 * 랜덤한 x값) + 원점이동값(=z변의 길이의 반)
                 float numX = RanX();
@@ -154,8 +152,8 @@ namespace WiggleQuest
 
                 //생성해야할 개수 삭제
                 totalList--;
-                yield return null;
             }
+            yield return null;
         }
 
         private float RanX()
@@ -176,7 +174,7 @@ namespace WiggleQuest
                 return numX;
             }
 
-            Debug.Log("FIELDTILE 함수 버그");
+            Debug.Log("FIELDTILE RanX 함수 버그");
             return 0;
         }
     }
