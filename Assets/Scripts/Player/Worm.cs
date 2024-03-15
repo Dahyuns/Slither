@@ -19,10 +19,10 @@ namespace WiggleQuest
     public class Worm : MonoBehaviour
     {
         //Áö··ÀÌ ½ºÅÈ
-        private static float heart;                       //¸ñ¼û
-        private static int gold;                          //°ñµå
-        private static float speed;                       //¼Óµµ
-        private static float def;                         //¹æ¾î·Â
+        [SerializeField] private static float heart;                       //¸ñ¼û
+        [SerializeField] private static int gold;                          //°ñµå
+        [SerializeField] private static float speed;                       //¼Óµµ
+        [SerializeField] private static float def;                         //¹æ¾î·Â
 
         //ÀÐ±âÀü¿ë
         public static float Heart   { get { return heart; } }
@@ -72,10 +72,10 @@ namespace WiggleQuest
         }
 
         //½ÃÀÛ ½ºÅÈ
-        [SerializeField] private int startHeart = 3;
-        [SerializeField] private int startGold = 0;
-        [SerializeField] private float startSpeed = 10f;
-        [SerializeField] private float startDef = 0;
+        private int startHeart = 3;
+        private int startGold = 200;
+        private float startSpeed = 5f;
+        private float startDef = 0;
 
         //¿òÁ÷ÀÓ º¤ÅÍ
         Vector3 moveDir;
@@ -97,7 +97,7 @@ namespace WiggleQuest
         private void Update()
         {
             //Á×À½Ã³¸®
-            if (heart <= 0)
+            if (heart < 1)
             {
                 isWormDead = true;
                 return;

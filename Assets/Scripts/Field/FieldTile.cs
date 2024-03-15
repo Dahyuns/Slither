@@ -8,8 +8,7 @@ namespace WiggleQuest
     public class FieldTile : MonoBehaviour
     {
         //추가구현?
-        //저장해놨다가 다시 가져가는 방법? -  오브젝트 풀링이라고 하던가?
-        //                              this.gameObject.SetActive(false);
+        //저장해놨다가 다시 가져가는 방법? -  오브젝트 풀링?
         //필드 아이템의 좌표 서로 겹치지않게 만들기 : sin그래프의 x좌표 리스트 만들기! x겹치지 않기
         // ㄴsin그래프 사용 200sin ? x = y   : ?는 주기에 곱하는 배수 , 원점은 시작지점
 
@@ -105,6 +104,25 @@ namespace WiggleQuest
             //numGold = Random.Range(0, numGold);
             //numFeed = Random.Range(0, numFeed);
 
+            //fire
+            for (int i = 0; i < numFire; i++)
+            {
+                //생성
+                GameObject item = Instantiate(firePrefab, groupTrap.transform);
+
+                //아이템 목록에 추가
+                FieldItemList.Add(item);
+
+                RanPosMake();
+
+                //생성 아이템 위치 조정
+                FieldItemList[i].transform.position = itemPosList[i];
+                numFire--;
+            }
+
+
+
+
             //총 개수
             int totalList = numFeed + numFire + numGold;
 
@@ -113,19 +131,20 @@ namespace WiggleQuest
                 GameObject item;
 
                 //생성 + 아이템 리스트에 추가
-                if (numFire > 0)
-                {
-                    item = Instantiate(firePrefab, groupTrap.transform);
-
-                    numFire--;
-                }
-                else if (numFeed > 0)
+                if (numFeed > 0)
                 {
                     item = Instantiate(feedPrefab, groupDrop.transform);
 
                     Debug.Log(numFeed);
                     numFeed--;
                 }
+                else if (numFire > 0)
+                {
+                    item = Instantiate(firePrefab, groupTrap.transform);
+
+                    numFire--;
+                }
+
                 else //if (numGold > 0)
                 {
                     item = Instantiate(goldPrefab, groupDrop.transform);
@@ -151,9 +170,24 @@ namespace WiggleQuest
 
 
                 //생성해야할 개수 삭제
+
                 totalList--;
             }
             yield return null;
+        }
+
+        private void RanPosMake()
+        {
+            //왼쪽아래 기준 좌표 생성 (sin그래프를 위해)
+            Vector3 thisPos = this.transform.position - (thisSize / 2);
+
+            //랜덤한 좌표 생성 //겹치지않게 만들기
+            // Sin함수 시작 지점(=z변의 길이의 반) * SIN함수 (총 거리의 배수 * 랜덤한 x값) + 원점이동값(=z변의 길이의 반)
+            float numX = RanX();
+            float numZ = (thisSize.z / 2) * Mathf.Sin(cycleMulti * numX) + (thisSize.z / 2);
+
+            //생성한 좌표, 좌표 리스트에 추가
+            itemPosList.Add(new Vector3(thisPos.x + numX, 0f, thisPos.z + numZ));
         }
 
         private float RanX()
