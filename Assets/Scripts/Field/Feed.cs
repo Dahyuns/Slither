@@ -30,11 +30,8 @@ namespace WiggleQuest
                 //格见(部府)眠啊
                 worm.AddHeart(feedValue);
 
-                GameObject effect = Instantiate(destroyEffPrefab, this.transform.position, Quaternion.identity);
-
                 Destroy(this.gameObject);
-
-                Destroy(effect,2f);
+                Instantiate(destroyEffPrefab, this.transform.position, Quaternion.identity);
             }
         }
     }
