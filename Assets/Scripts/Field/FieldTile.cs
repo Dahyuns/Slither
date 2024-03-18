@@ -135,7 +135,6 @@ namespace WiggleQuest
                 {
                     item = Instantiate(feedPrefab, groupDrop.transform);
 
-                    Debug.Log(numFeed);
                     numFeed--;
                 }
                 else if (numFire > 0)
@@ -149,7 +148,6 @@ namespace WiggleQuest
                 {
                     item = Instantiate(goldPrefab, groupDrop.transform);
 
-                    Debug.Log(numGold);
                     numGold--;
                 }
 

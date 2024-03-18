@@ -13,32 +13,37 @@ namespace WiggleQuest
         public Worm worm;
         public GameObject ShopButton; //상점 버튼 [ Shop ]
         public GameObject ShopMenu; //상점 UI
+        public GameObject LockImage;
 
         //가격 - 밸런스조절부분
         [SerializeField] private int[] priceHeart = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
         [SerializeField] private int[] priceGold  = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
         [SerializeField] private int[] priceSpeed = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
         [SerializeField] private int[] priceDef   = { 100, 200, 300 };
+        [SerializeField] private int PriceShop = 50;
 
-        //상점에 들어갔는지?
-        private bool isInShop = false;
+        private bool shopButtonOn = true;
 
-        // 타이틀 <-> ( 필드 <-> 상점 )
-        //필드입장 : 게임시작        ㅡ 타이틀에서
-        //필드퇴장 : 게임오버        ㅡ 타이틀로
-        //상점입장 : 상점 버튼 클릭  ㅡ 필드에서
-        //상점퇴장 : ESC            ㅡ 필드로
-        private void Start()
-        {
-            //샵메뉴의 모든 오브젝트 가져오기?
-            //EveryInShop = ShopMenu.GetComponentsInChildren<GameObject>(true);
-        }
         private void Update()
         {
             if (Worm.isWormDead)
             {
                 ShopButton.GetComponent<Button>().interactable = false;
                 return;
+            }
+
+            //상점 들어갈 돈이 있을때
+            if (Worm.Gold < PriceShop && shopButtonOn == true)
+            {
+                ShopButton.GetComponent<Button>().interactable = false;
+                LockImage.SetActive(true);
+                shopButtonOn = false;
+            } // 없을때
+            else if (Worm.Gold >= PriceShop && shopButtonOn == false)
+            {
+                ShopButton.GetComponent<Button>().interactable = true;
+                LockImage.SetActive(false);
+                shopButtonOn = true;
             }
 
             //상점 안에 들어갔나?
@@ -52,6 +57,16 @@ namespace WiggleQuest
                 }
             }
         }
+
+        #region Shop inout
+        // 타이틀 <-> ( 필드 <-> 상점 )
+        //필드입장 : 게임시작        ㅡ 타이틀에서
+        //필드퇴장 : 게임오버        ㅡ 타이틀로
+        //상점입장 : 상점 버튼 클릭  ㅡ 필드에서
+        //상점퇴장 : ESC            ㅡ 필드로
+
+        //상점에 들어갔는지?
+        private bool isInShop = false;
 
         //Back버튼 클릭시 및 ESC input시 //상점에서 필드로
         public void GotoPlayGround()
@@ -83,46 +98,59 @@ namespace WiggleQuest
                 each.SetActive(isInShop);
             }*/
         }
+        #endregion
 
         //먹이추가확률 구매
         public void PurchaseHeart()
         {
-            if (worm.SubtractGold(priceHeart[0]))
+            if (worm.SubtractGold(priceHeart[Worm.HeartLv]))
             {
                 worm.AddLv(AddPercent.Heart);
                 Debug.Log("HP 구매");
+                return;
             }
+
+            Debug.Log("!! HP 구매 불가");
         }
 
         //골드추가확률 구매
         public void PurchaseGold()
         {
-            if (worm.SubtractGold(priceGold[0]))
+            if (worm.SubtractGold(priceGold[Worm.GoldLv]))
             {
                 worm.AddLv(AddPercent.Gold);
                 Debug.Log("Gold 구매");
+                return;
             }
+
+            Debug.Log("!! Gold 구매 불가");
         }
 
         //스피드추가확률 구매
         public void PurchaseSpeed()
         {
-            if (worm.SubtractGold(priceSpeed[0]))
+            if (worm.SubtractGold(priceSpeed[Worm.SpeedLv]))
             {
                 worm.AddLv(AddPercent.Speed);
                 Debug.Log("스피드 구매");
+                return;
             }
+
+            Debug.Log("!! 스피드 구매 불가");
         }
 
         //방어력 구매
         public void PurchaseDef()
         {
             //1,2,3레벨 갑옷 구분필요
-            if (worm.SubtractGold(priceDef[0]))
+            if (worm.SubtractGold(priceDef[Worm.DefLv]))
             {
                 worm.AddLv(AddPercent.Def);
                 Debug.Log("방어력 구매");
+                return;
             }
+
+            Debug.Log("!! 방어력 구매 불가");
         }
 
         void OnPoint(InputValue value)
