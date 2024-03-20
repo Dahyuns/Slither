@@ -3423,9 +3423,9 @@ MonoBehaviour:
   isCreateTileMove: 0
   fieldTiles: []
   standardDis: 1000
-  numFire: 50
-  numGold: 3
-  numFeed: 10
+  numFire: 40
+  numGold: 2
+  numFeed: 5
 --- !u!1 &897474475
 GameObject:
   m_ObjectHideFlags: 0

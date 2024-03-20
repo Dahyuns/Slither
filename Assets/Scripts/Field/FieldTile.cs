@@ -12,11 +12,16 @@ namespace WiggleQuest
         //필드 아이템의 좌표 서로 겹치지않게 만들기 : sin그래프의 x좌표 리스트 만들기! x겹치지 않기
         // ㄴsin그래프 사용 200sin ? x = y   : ?는 주기에 곱하는 배수 , 원점은 시작지점
 
+        //+ 랜덤아이템 생성 함수의 fire생성 확률을 높여야함. < 다른 아이템이 너무 빨리 나와서 한곳에 뭉침현상
+        //  각각 수들의 비율 계산해서 확률에 반영하는 식으로?
+
         //참조 
         private GameObject mainCamera;
-        private FieldControl fieldControl;
         private GameObject groupTrap;
         private GameObject groupDrop;
+        private FieldControl fieldControl;
+
+        private GameObject item;
 
         //프리팹
         public GameObject firePrefab;
@@ -26,11 +31,15 @@ namespace WiggleQuest
         private Vector3 thisSize;
 
         //필드 드롭 간격 (커질수록 촘촘해짐, 기본은 1)
-        public float cycleMulti = 1;
+        private float cycleMulti = 1;
 
         //해당 필드내 아이템 저장 리스트
         [SerializeField] private List<GameObject> FieldItemList = new List<GameObject>();
         [SerializeField] private List<Vector3> itemPosList;
+
+        int numFire;
+        int numGold;
+        int numFeed;
 
         private void Awake()
         {
@@ -42,7 +51,9 @@ namespace WiggleQuest
             if (fieldControl.fieldTiles.Count == 0)
                 return;
             else  //필드내 아이템들 생성
-                StartCoroutine(CreateItems());
+            {
+                StartCoroutine(CreateItems()); //로딩과 함께 실행?
+            }
         }
 
         private void Update()
@@ -88,126 +99,133 @@ namespace WiggleQuest
         }
 
 
-        //필드위에 아이템 생성 + 리스트에 저장    (규칙에따라랜덤)
+        public enum DropItem
+        {
+            Fire, Gold, Feed, None
+        }
+
+        //랜덤 아이템 생성
+        public GameObject RandomItemCreate()
+        {
+            List<GameObject> prefabList = new List<GameObject>() { firePrefab, goldPrefab, feedPrefab };
+            if (numFire == 0)
+                prefabList.Remove(firePrefab);
+            if (numGold == 0)
+                prefabList.Remove(goldPrefab);
+            if (numFeed == 0)
+                prefabList.Remove(feedPrefab);
+            //Debug.Log($"numFire : {numFire}, numGold : {numGold}, numFeed : {numFeed}");
+            if (prefabList.Count != 0)
+            {
+                //랜덤으로 골라서 리턴
+                int rand = Random.Range(0, prefabList.Count);
+                if (prefabList[rand] == firePrefab)
+                {
+                    numFire--;
+                    return Instantiate(prefabList[rand], groupTrap.transform);
+                }
+                else
+                {
+                    if (prefabList[rand] == goldPrefab)
+                        numGold--;
+                    else if (prefabList[rand] == feedPrefab)
+                        numFeed--;
+
+                    return Instantiate(prefabList[rand], groupDrop.transform);
+                }
+            }
+            else
+            {
+                Debug.Log("fieldTile - total크기보다 더 많이 실행 / prefabList오류");
+                return null;
+            } //예외체크
+        }
+
+        //필드위에 아이템 생성 + 리스트에 저장
         public IEnumerator CreateItems()
         {
             //필드 타일 사이즈(거리 측정용)
             thisSize = Vector3.Scale(GetComponent<MeshFilter>().sharedMesh.bounds.size,
                                          transform.localScale);
 
-            int numFire = fieldControl.numFire;
-            int numGold = fieldControl.numGold;
-            int numFeed = fieldControl.numFeed;
-
-            //필드당 * ~ *개 생성
-            //numFire = Random.Range(0, numFire);
-            //numGold = Random.Range(0, numGold);
-            //numFeed = Random.Range(0, numFeed);
-
-            //fire
-            for (int i = 0; i < numFire; i++)
-            {
-                //생성
-                GameObject item = Instantiate(firePrefab, groupTrap.transform);
-
-                //아이템 목록에 추가
-                FieldItemList.Add(item);
-
-                RanPosMake();
-
-                //생성 아이템 위치 조정
-                FieldItemList[i].transform.position = itemPosList[i];
-                numFire--;
-            }
-
-
-
+            numFire = fieldControl.numFire - Random.Range(0, fieldControl.numFire);
+            numGold = fieldControl.numGold - Random.Range(0, fieldControl.numGold);
+            numFeed = fieldControl.numFeed - Random.Range(0, fieldControl.numFeed);
 
             //총 개수
-            int totalList = numFeed + numFire + numGold;
+            int total = numFeed + numFire + numGold;
 
-            for (int i = 0; i < totalList; i++)
+            float offset = 1f; //양옆,위아래 다른타일과 겹치지않게 띄우는 용도
+            float unit = (thisSize.x - offset * 2) / total;
+
+            
+            for (int i = 0; i < total; i++)
             {
-                GameObject item;
+                //생성 + 아이템 리스트에 추가(제거할때 필요한 리스트)
+                item = RandomItemCreate();
+                FieldItemList.Add(item);
 
-                //생성 + 아이템 리스트에 추가
+                //왼쪽아래 기준 좌표 생성 (sin그래프를 위해)
+                Vector3 thisPos = this.transform.position - (thisSize / 2);
+
+                // Sin함수 시작 지점(=z변의 길이의 반) * SIN함수 (총 거리의 배수 * 랜덤한 x값) + 원점이동값(=z변의 길이의 반)
+                float numX = offset + unit * i;
+                float numZ = (thisSize.z / 2 - offset *2) * Mathf.Sin(cycleMulti * numX) + (thisSize.z / 2);
+
+                //생성 아이템 위치 조정
+                FieldItemList[i].transform.position = new Vector3(thisPos.x + numX, 0f, thisPos.z + numZ);
+            }
+            yield return null;
+        }
+    }
+}
+
+
+
+
+/*
+    int rand = Random.Range(0, 3);
+    switch (rand)
+    {
+        case 0:
+            if (numFire > 0)
+            {
+                item = Instantiate(goldPrefab, groupTrap.transform);
+                numFire--;
+            }
+            break;
+
+        case 1:
+            if (numGold > 0)
+            {
+                item = Instantiate(goldPrefab, groupDrop.transform);
+                numGold--;
+            }
+            break;
+
+        case 2:
+            if (numFeed > 0)
+            {
+                item = Instantiate(feedPrefab, groupDrop.transform);
+                numFeed--;
+            }
+            break;
+    }
+*/
+/*
                 if (numFeed > 0)
                 {
                     item = Instantiate(feedPrefab, groupDrop.transform);
-
                     numFeed--;
                 }
                 else if (numFire > 0)
                 {
                     item = Instantiate(firePrefab, groupTrap.transform);
-
                     numFire--;
                 }
-
-                else //if (numGold > 0)
+                else if (numGold > 0)
                 {
                     item = Instantiate(goldPrefab, groupDrop.transform);
-
                     numGold--;
                 }
-
-                FieldItemList.Add(item);
-
-                //랜덤한 좌표 생성 //겹치지않게 만들기
-                Vector3 thisPos = this.transform.position - (thisSize / 2); //왼쪽아래 기준
-                                                                            // Sin함수 시작 지점(=z변의 길이의 반) * SIN함수 (총 거리의 배수 * 랜덤한 x값) + 원점이동값(=z변의 길이의 반)
-                float numX = RanX();
-                float numZ = (thisSize.z / 2) * Mathf.Sin(cycleMulti * numX) + (thisSize.z / 2);
-
-                //생성한 좌표, 좌표 리스트에 추가
-                itemPosList.Add(new Vector3(thisPos.x + numX, 0f, thisPos.z + numZ));
-
-                //생성 아이템 위치 조정
-                FieldItemList[i].transform.position = itemPosList[i];
-
-
-
-                //생성해야할 개수 삭제
-
-                totalList--;
-            }
-            yield return null;
-        }
-
-        private void RanPosMake()
-        {
-            //왼쪽아래 기준 좌표 생성 (sin그래프를 위해)
-            Vector3 thisPos = this.transform.position - (thisSize / 2);
-
-            //랜덤한 좌표 생성 //겹치지않게 만들기
-            // Sin함수 시작 지점(=z변의 길이의 반) * SIN함수 (총 거리의 배수 * 랜덤한 x값) + 원점이동값(=z변의 길이의 반)
-            float numX = RanX();
-            float numZ = (thisSize.z / 2) * Mathf.Sin(cycleMulti * numX) + (thisSize.z / 2);
-
-            //생성한 좌표, 좌표 리스트에 추가
-            itemPosList.Add(new Vector3(thisPos.x + numX, 0f, thisPos.z + numZ));
-        }
-
-        private float RanX()
-        {
-            float numX = Random.Range(0, thisSize.x);
-            bool isNullPos = false;
-
-            while (isNullPos == false)
-            {
-                foreach (Vector3 itempos in itemPosList)
-                {
-                    if (numX < itempos.x + 1 || numX > itempos.x - 1)
-                    {
-                        continue;
-                    }
-                }
-                isNullPos = true;
-                return numX;
-            }
-
-            Debug.Log("FIELDTILE RanX 함수 버그");
-            return 0;
-        }
-    }
-}
+                else { Debug.Log("itemcreate Error"); }*/
