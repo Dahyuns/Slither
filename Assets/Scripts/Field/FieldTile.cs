@@ -98,12 +98,6 @@ namespace WiggleQuest
             Destroy(this.gameObject);
         }
 
-
-        public enum DropItem
-        {
-            Fire, Gold, Feed, None
-        }
-
         //랜덤 아이템 생성
         public GameObject RandomItemCreate()
         {

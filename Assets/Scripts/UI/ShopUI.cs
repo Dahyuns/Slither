@@ -16,9 +16,9 @@ namespace WiggleQuest
         public GameObject LockImage;
 
         //가격 - 밸런스조절부분
-        [SerializeField] private int[] priceHeart = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
-        [SerializeField] private int[] priceGold  = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
-        [SerializeField] private int[] priceSpeed = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
+        [SerializeField] private int[] priceHeart = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100 };
+        [SerializeField] private int[] priceGold  = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100 };
+        [SerializeField] private int[] priceSpeed = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100 };
         [SerializeField] private int[] priceDef   = { 100, 200, 300 };
         [SerializeField] private int PriceShop = 50;
 
@@ -26,21 +26,24 @@ namespace WiggleQuest
 
         private void Update()
         {
+            //죽으면 버튼 없애고 RETURN
             if (Worm.isWormDead)
             {
                 ShopButton.GetComponent<Button>().interactable = false;
                 return;
             }
 
-            //상점 들어갈 돈이 있을때
+            //상점 들어갈 돈이 없을때
             if (Worm.Gold < PriceShop && shopButtonOn == true)
             {
+                //버튼 끄기, LOCK이미지 켜기
                 ShopButton.GetComponent<Button>().interactable = false;
                 LockImage.SetActive(true);
                 shopButtonOn = false;
-            } // 없을때
+            } // 있을때
             else if (Worm.Gold >= PriceShop && shopButtonOn == false)
             {
+                //버튼 켜기, LOCK이미지 끄기
                 ShopButton.GetComponent<Button>().interactable = true;
                 LockImage.SetActive(false);
                 shopButtonOn = true;
@@ -78,8 +81,15 @@ namespace WiggleQuest
         //Shop버튼 클릭시 //필드에서 상점으로
         public void GotoShop()
         {
-            Time.timeScale = 0f; //일시정지
-            ShopStatusReverse();
+            if (worm.SubtractGold(PriceShop))
+            {
+                Time.timeScale = 0f; //일시정지
+                ShopStatusReverse();
+            }
+            else
+            {
+                Debug.Log("상점진입불가능");
+            }
         }
 
         //상점 진입 / 퇴장
@@ -87,16 +97,16 @@ namespace WiggleQuest
         {
             /*1 버튼으로 가져왔을때
             ShopButton.enabled = !(ShopButton.enabled);
-            ShopButton.image.enabled = !(ShopButton.image.enabled);*/
+            ShopButton.image.enabled = !(ShopButton.image.enabled);
+            foreach (GameObject each in EveryInShop)
+            {
+                each.SetActive(isInShop);
+            }*/
             //2 게임 오브젝트로 가져왔을때
             ShopButton.SetActive(isInShop);
 
             isInShop = !isInShop; //반대로 작업
             ShopMenu.SetActive(isInShop);
-            /*foreach (GameObject each in EveryInShop)
-            {
-                each.SetActive(isInShop);
-            }*/
         }
         #endregion
 

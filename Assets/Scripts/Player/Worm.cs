@@ -38,7 +38,7 @@ namespace WiggleQuest
         private static int goldAddLv = 10;                    //골드   추가 획득Lv
         private static int speedAddLv = 10;                   //속도   추가 획득Lv
         private static int defAddLv = 10;                     //방어력 추가 획득Lv
-        //  ㄴ읽기전용
+        //  ㄴ읽기전용 - 상점UI에 가져가서 레벨 별 이미지 세팅해야함
         public static int HeartLv { get { return heartAddLv; } }
         public static int GoldLv { get { return goldAddLv; } }
         public static int SpeedLv { get { return defAddLv; } }
