@@ -24,20 +24,19 @@ namespace WiggleQuest
         [SerializeField] private static float speed;                       //¼Óµµ
         [SerializeField] private static float def;                         //¹æ¾î·Â
         //  ¤¤ÀÐ±âÀü¿ë
-        public static float Heart   { get { return heart; } }
-        public static int   Gold    { get { return gold; } }
-        public static float Speed   { get { return speed; } }
-        public static float Def     { get { return def; } }
+        public static float Heart { get { return heart; } }
+        public static int Gold { get { return gold; } }
+        public static float Speed { get { return speed; } }
+        public static float Def { get { return def; } }
 
         //¸Ó¸®À§¿¡ Ç¥½Ã¿ë //·¹º§ = ¸ñ¼û ¹Ý³»¸²°ª
-        public static int Level     { get { return (int)heart;} } 
-
+        public static int Level { get { return (int)heart; } }
 
         //*--Lv¸¸Å­ Ãß°¡ È¹µæ
-        private static int heartAddLv = 10;                   //¸ÔÀÌ   Ãß°¡ È¹µæLv
-        private static int goldAddLv = 10;                    //°ñµå   Ãß°¡ È¹µæLv
-        private static int speedAddLv = 10;                   //¼Óµµ   Ãß°¡ È¹µæLv
-        private static int defAddLv = 10;                     //¹æ¾î·Â Ãß°¡ È¹µæLv
+        private static int heartAddLv = 0;                   //¸ÔÀÌ   Ãß°¡ È¹µæLv
+        private static int goldAddLv = 0;                    //°ñµå   Ãß°¡ È¹µæLv
+        private static int speedAddLv = 0;                   //¼Óµµ   Ãß°¡ È¹µæLv
+        private static int defAddLv = 0;                     //¹æ¾î·Â Ãß°¡ È¹µæLv
         //  ¤¤ÀÐ±âÀü¿ë - »óÁ¡UI¿¡ °¡Á®°¡¼­ ·¹º§ º° ÀÌ¹ÌÁö ¼¼ÆÃÇØ¾ßÇÔ
         public static int HeartLv { get { return heartAddLv; } }
         public static int GoldLv { get { return goldAddLv; } }
@@ -46,10 +45,10 @@ namespace WiggleQuest
 
 
         //--%¸¸Å­ Ãß°¡ È¹µæ <°íÁ¤> //¹ë·±½ºÁ¶ÀýºÎºÐ
-        private const float heartAddP = 0;                    //¸ÔÀÌ   --%¸¸Å­ Ãß°¡ È¹µæ
-        private const float goldAddP  = 0;                    //°ñµå   --%¸¸Å­ Ãß°¡ È¹µæ
-        private const float speedAddP = 0;                    //¼Óµµ   --%¸¸Å­ Ãß°¡ È¹µæ
-        private const float defAddP   = 0;                    //¹æ¾î·Â --%¸¸Å­ Ãß°¡ È¹µæ
+        private const float heartAddP = 100;                    //¸ÔÀÌ   --%¸¸Å­ Ãß°¡ È¹µæ
+        private const float goldAddP = 100;                    //°ñµå   --%¸¸Å­ Ãß°¡ È¹µæ
+        private const float speedAddP = 100;                    //¼Óµµ   --%¸¸Å­ Ãß°¡ È¹µæ
+        private const float defAddP = 100;                    //¹æ¾î·Â --%¸¸Å­ Ãß°¡ È¹µæ
 
         //½ÃÀÛ ½ºÅÈ > ÃÊ±âÈ­¿ë
         private int startHeart = 3;
@@ -66,7 +65,7 @@ namespace WiggleQuest
         public static bool isWormDead = false;
 
         private void Start()
-        { 
+        {
             //ÃÊ±âÈ­
             gold = startGold;
             heart = startHeart;
@@ -97,43 +96,74 @@ namespace WiggleQuest
 
             //[Ä¡Æ®Å°]
             //°ñµå up
-            if (Input.GetKey(KeyCode.M))                            gold += 10000;
+            if (Input.GetKey(KeyCode.M)) gold += 10000;
             //²¿¸® °³¼ö up
-            if (Input.GetKeyDown(KeyCode.LeftShift))                heart++;
+            if (Input.GetKeyDown(KeyCode.LeftShift)) heart++;
             //²¿¸® °³¼ö down
-            if (Input.GetKeyDown(KeyCode.LeftControl))              heart--;
+            if (Input.GetKeyDown(KeyCode.LeftControl)) heart--;
 
         }
 
-        //Gold, Heart, DefÁß ¼±ÅÃ, %Ãß°¡     
+        //Gold, Heart, DefÁß ¼±ÅÃ, % ·¹º§ Ãß°¡     
         public void AddLv(AddPercent what)
         {
             switch (what)
             {
-                //°ñµå·¹º§¾÷
-                case AddPercent.Gold:
-                    goldAddLv += 1;
-                    break;
-
                 //¸ÔÀÌ
                 case AddPercent.Heart:
-                    heartAddLv += 1;
+                    if (heartAddLv < ShopUI.Instance.lengthPriceHeart)
+                    {
+                        heartAddLv++;
+                    }
                     break;
 
-                //¹æ¾î·Â
-                case AddPercent.Def:
-                    defAddLv += 1;
+                //°ñµå
+                case AddPercent.Gold:
+                    if (goldAddLv < ShopUI.Instance.lengthPriceGold)
+                    {
+                        goldAddLv++;
+                    }
                     break;
 
                 //¼Óµµ
                 case AddPercent.Speed:
-                    speedAddLv += 1;
+                    if (speedAddLv < ShopUI.Instance.lengthPriceSpeed)
+                    {
+                        speedAddLv++;
+                    }
+                    break;
+
+                //¹æ¾î·Â
+                case AddPercent.Def:
+                    if (defAddLv < ShopUI.Instance.lengthPriceDef)
+                    {
+                        defAddLv++;
+                    }
                     break;
             }
         }
 
         #region + , - (È¹µæ »ç¿ë Â÷°¨)
         //[ float ¿¡¼­ int ·Î º¯È¯ÇÒ¶§ ±âº»ÀûÀ¸·Î ¼Ò¼öÁ¡ µÞÀÚ¸®¸¦ ¹ö¸²À» ÇÑ´Ù. ]
+
+        // ¸ñ¼û Ãß°¡ - ¸ÔÀÌÈ¹µæ => ¿ø·¡ °®°íÀÖ´Â ¸ñ¼û += ¾òÀº ¸ÔÀÌ + ¾òÀº ¸ÔÀÌ * (goldAddLv * 00%)
+        public void AddHeart(float value)
+        {
+            heart += value + (int)(value * heartAddLv * heartAddP);
+        }
+
+        //      °¨¼Ò - Àå¾Ö¹° ºÎµúÈû => ½¯µå!
+        public void SubtractHeart(float value)
+        {
+            heart -= value;
+            if (heart <= 0)
+            {
+                heart = 0;
+                //Á×À½Ã³¸®
+                DeadWorm();
+                return;
+            }
+        }
 
         // °ñµå Ãß°¡ - °ñµåÈ¹µæ => ¿ø·¡ µé°íÀÖ´Â °ñµå += ¾òÀº °ñµå + ¾òÀº °ñµå * (goldAddLv * 00%) 
         public void AddGold(int value)
@@ -155,25 +185,6 @@ namespace WiggleQuest
                 gold -= value;
                 return true;
             }
-        }
-
-        // ¸ñ¼û Ãß°¡ - ¸ÔÀÌÈ¹µæ => ¿ø·¡ °®°íÀÖ´Â ¸ñ¼û += ¾òÀº ¸ÔÀÌ + ¾òÀº ¸ÔÀÌ * (goldAddLv * 00%)
-        public void AddHeart(float value)
-        {
-            heart += value + (int)(value * heartAddLv * heartAddP);
-        }
-
-        //      °¨¼Ò - Àå¾Ö¹° ºÎµúÈû => ¹æ¾î·Â!!!
-        public void SubtractHeart(float value)
-        {
-            float newvalue = heart - value - (int)(value * ((heartAddLv * heartAddP) / 100));
-            if (newvalue < 0)
-            {
-                heart = 0;
-                DeadWorm();
-                return;
-            }
-            heart = newvalue ;
         }
 
         // ¼Óµµ Áõ°¡
