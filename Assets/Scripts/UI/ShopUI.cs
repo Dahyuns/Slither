@@ -9,9 +9,6 @@ namespace WiggleQuest
 
     public class ShopUI : MonoBehaviour
     {
-        private static ShopUI instance;
-        public static ShopUI Instance { get { return instance; } }
-
         //참조
         [SerializeField] private Worm worm;
         [SerializeField] private GameObject ShopButton; //상점 버튼 [ Shop ]
@@ -37,6 +34,7 @@ namespace WiggleQuest
 
         private void Update()
         {
+            //Debug.Log($"gold : {Worm.GoldLv}\n heart : {Worm.HeartLv}\n speed : {Worm.SpeedLv}\n def : {Worm.DefLv}");
             //죽으면 버튼 없애고 RETURN
             if (Worm.isWormDead)
             {
@@ -142,7 +140,6 @@ namespace WiggleQuest
             if (worm.SubtractGold(priceHeart[Worm.HeartLv]))
             {
                 worm.AddLv(AddPercent.Heart);
-                Debug.Log(Worm.HeartLv.ToString() + "HP 구매");
                 return;
             }
         }
@@ -161,7 +158,6 @@ namespace WiggleQuest
             if (worm.SubtractGold(priceGold[Worm.GoldLv]))
             {
                 worm.AddLv(AddPercent.Gold);
-                Debug.Log(Worm.GoldLv.ToString() + "Gold 구매");
                 return;
             }
         }
@@ -179,7 +175,6 @@ namespace WiggleQuest
             if (worm.SubtractGold(priceSpeed[Worm.SpeedLv]))
             {
                 worm.AddLv(AddPercent.Speed);
-                Debug.Log(Worm.SpeedLv.ToString() + "스피드 구매");
                 return;
             }
         }
@@ -198,7 +193,6 @@ namespace WiggleQuest
             if (worm.SubtractGold(priceDef[Worm.DefLv]))
             {
                 worm.AddLv(AddPercent.Def);
-                Debug.Log(Worm.DefLv.ToString() + "방어력 구매");
                 return;
             }
         }

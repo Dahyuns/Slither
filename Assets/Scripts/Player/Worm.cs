@@ -40,9 +40,8 @@ namespace WiggleQuest
         //  ㄴ읽기전용 - 상점UI에 가져가서 레벨 별 이미지 세팅해야함
         public static int HeartLv { get { return heartAddLv; } }
         public static int GoldLv { get { return goldAddLv; } }
-        public static int SpeedLv { get { return defAddLv; } }
-        public static int DefLv { get { return speedAddLv; } }
-
+        public static int SpeedLv { get { return speedAddLv; } }
+        public static int DefLv { get { return defAddLv; } }
 
         //--%만큼 추가 획득 <고정> //밸런스조절부분
         private const float heartAddP = 100;                    //먹이   --%만큼 추가 획득
@@ -60,6 +59,8 @@ namespace WiggleQuest
         Vector3 moveDir;
         private Vector3 beforeLocate;
 
+        //참조
+        private ShopUI shopUI;
         //참조용
         public static bool isWormMoving = false;
         public static bool isWormDead = false;
@@ -71,6 +72,9 @@ namespace WiggleQuest
             heart = startHeart;
             speed = startSpeed;
             def = startDef;
+
+            //참조
+            shopUI = GameObject.Find("ShopUI").GetComponent<ShopUI>(); ;
         }
 
         private void Update()
@@ -111,7 +115,7 @@ namespace WiggleQuest
             {
                 //먹이
                 case AddPercent.Heart:
-                    if (heartAddLv < ShopUI.Instance.lengthPriceHeart)
+                    if (heartAddLv < shopUI.lengthPriceHeart)
                     {
                         heartAddLv++;
                     }
@@ -119,7 +123,7 @@ namespace WiggleQuest
 
                 //골드
                 case AddPercent.Gold:
-                    if (goldAddLv < ShopUI.Instance.lengthPriceGold)
+                    if (goldAddLv < shopUI.lengthPriceGold)
                     {
                         goldAddLv++;
                     }
@@ -127,7 +131,7 @@ namespace WiggleQuest
 
                 //속도
                 case AddPercent.Speed:
-                    if (speedAddLv < ShopUI.Instance.lengthPriceSpeed)
+                    if (speedAddLv < shopUI.lengthPriceSpeed)
                     {
                         speedAddLv++;
                     }
@@ -135,7 +139,7 @@ namespace WiggleQuest
 
                 //방어력
                 case AddPercent.Def:
-                    if (defAddLv < ShopUI.Instance.lengthPriceDef)
+                    if (defAddLv < shopUI.lengthPriceDef)
                     {
                         defAddLv++;
                     }
