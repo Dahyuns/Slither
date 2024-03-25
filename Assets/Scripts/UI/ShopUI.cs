@@ -4,9 +4,6 @@ using UnityEngine.UI;
 
 namespace WiggleQuest
 {
-    //추가구현
-    //돈있는지 확인
-
     public class ShopUI : MonoBehaviour
     {
         //참조
@@ -16,25 +13,25 @@ namespace WiggleQuest
         [SerializeField] private GameObject LockImage;
 
         //가격 - 밸런스조절부분
-        #region Shop Price
-        [SerializeField] private int PriceShop = 50;
+        #region Price
+        [SerializeField] 
+        private int priceShop = 50;
+        public int PriceShop { get { return priceShop; } }
 
         [SerializeField] private int[] priceHeart = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100 };
         [SerializeField] private int[] priceGold  = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100 };
         [SerializeField] private int[] priceSpeed = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100 };
         [SerializeField] private int[] priceDef   = { 100, 200, 300 };
-
-        public int lengthPriceHeart { get { return priceHeart.Length; } }
-        public int lengthPriceGold { get { return priceGold.Length; } }
-        public int lengthPriceSpeed { get { return priceSpeed.Length; } }
-        public int lengthPriceDef { get { return priceDef.Length; } }
+        public int[] PriceHeart { get { return priceHeart; } }
+        public int[] PriceGold  { get { return priceGold; } }
+        public int[] PriceSpeed { get { return priceSpeed; } }
+        public int[] PriceDef   { get { return priceDef; } }
         #endregion
 
         private bool shopButtonOn = true;
 
         private void Update()
         {
-            //Debug.Log($"gold : {Worm.GoldLv}\n heart : {Worm.HeartLv}\n speed : {Worm.SpeedLv}\n def : {Worm.DefLv}");
             //죽으면 버튼 없애고 RETURN
             if (Worm.isWormDead)
             {
@@ -45,7 +42,7 @@ namespace WiggleQuest
             #region Shop inout
 
             //상점 들어갈 돈이 없을때
-            if (Worm.Gold < PriceShop && shopButtonOn == true)
+            if (Worm.Gold < priceShop && shopButtonOn == true)
             {
                 //버튼 끄기, LOCK이미지 켜기
                 ShopButton.GetComponent<Button>().interactable = false;
@@ -54,7 +51,7 @@ namespace WiggleQuest
             } 
             
             // 있을때
-            else if (Worm.Gold >= PriceShop && shopButtonOn == false)
+            else if (Worm.Gold >= priceShop && shopButtonOn == false)
             {
                 //버튼 켜기, LOCK이미지 끄기
                 ShopButton.GetComponent<Button>().interactable = true;
@@ -95,7 +92,7 @@ namespace WiggleQuest
         //Shop버튼 클릭시 //필드에서 상점으로
         public void GotoShop()
         {
-            if (worm.SubtractGold(PriceShop))
+            if (worm.SubtractGold(priceShop))
             {
                 Time.timeScale = 0f; //일시정지
                 ShopStatusReverse();

@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace WiggleQuest
 {
     //추가구현
     //이동 제한 (꼬리쪽으로 못가게)
+    //스피드와 방어력 적용
 
 
     // 추가확률 종류
@@ -44,10 +46,10 @@ namespace WiggleQuest
         public static int DefLv { get { return defAddLv; } }
 
         //--%만큼 추가 획득 <고정> //밸런스조절부분
-        private const float heartAddP = 100;                    //먹이   --%만큼 추가 획득
-        private const float goldAddP = 100;                    //골드   --%만큼 추가 획득
+        private const float heartAddP = 3;                    //먹이   --%만큼 추가 획득
+        private const float goldAddP = 10;                    //골드   --%만큼 추가 획득
         private const float speedAddP = 100;                    //속도   --%만큼 추가 획득
-        private const float defAddP = 100;                    //방어력 --%만큼 추가 획득
+        private const float defAddP = 10;                    //방어력 --%만큼 추가 획득
 
         //시작 스탯 > 초기화용
         private int startHeart = 3;
@@ -74,7 +76,7 @@ namespace WiggleQuest
             def = startDef;
 
             //참조
-            shopUI = GameObject.Find("ShopUI").GetComponent<ShopUI>(); ;
+            shopUI = GameObject.Find("ShopUI")?.GetComponent<ShopUI>(); ;
         }
 
         private void Update()
@@ -85,6 +87,17 @@ namespace WiggleQuest
                 isWormDead = true;
                 return;
             }
+
+            //스피드와 방어력 적용
+            //if (speed < )
+            {
+
+            }
+            //if (def < )
+            {
+
+            }
+
 
             //이동
             if (moveDir != Vector3.zero)
@@ -115,7 +128,7 @@ namespace WiggleQuest
             {
                 //먹이
                 case AddPercent.Heart:
-                    if (heartAddLv < shopUI.lengthPriceHeart)
+                    if (heartAddLv < shopUI.PriceHeart.Length)
                     {
                         heartAddLv++;
                     }
@@ -123,7 +136,7 @@ namespace WiggleQuest
 
                 //골드
                 case AddPercent.Gold:
-                    if (goldAddLv < shopUI.lengthPriceGold)
+                    if (goldAddLv < shopUI.PriceGold.Length)
                     {
                         goldAddLv++;
                     }
@@ -131,7 +144,7 @@ namespace WiggleQuest
 
                 //속도
                 case AddPercent.Speed:
-                    if (speedAddLv < shopUI.lengthPriceSpeed)
+                    if (speedAddLv < shopUI.PriceSpeed.Length)
                     {
                         speedAddLv++;
                     }
@@ -139,7 +152,7 @@ namespace WiggleQuest
 
                 //방어력
                 case AddPercent.Def:
-                    if (defAddLv < shopUI.lengthPriceDef)
+                    if (defAddLv < shopUI.PriceDef.Length)
                     {
                         defAddLv++;
                     }
