@@ -63,5 +63,11 @@ namespace WiggleQuest
                 cantMoveTextUI.text += chars[c];
             }
         }
+
+        public void Reset()
+        {
+            Worm.isWormDead = false;
+            isGameover = false;
+        }
     }
 }

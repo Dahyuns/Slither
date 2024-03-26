@@ -1,5 +1,7 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static Unity.Burst.Intrinsics.X86.Avx;
 using static UnityEngine.Rendering.DebugUI;
 
 namespace WiggleQuest
@@ -63,6 +65,7 @@ namespace WiggleQuest
 
         //ÂüÁ¶
         private ShopUI shopUI;
+        private StatusUI statusUI;
         //ÂüÁ¶¿ë
         public static bool isWormMoving = false;
         public static bool isWormDead = false;
@@ -76,7 +79,8 @@ namespace WiggleQuest
             def = startDef;
 
             //ÂüÁ¶
-            shopUI = GameObject.Find("ShopUI")?.GetComponent<ShopUI>(); ;
+            shopUI = GameObject.Find("ShopUI")?.GetComponent<ShopUI>();
+            statusUI = GameObject.Find("StatusUI")?.GetComponent<StatusUI>();
         }
 
         private void Update()
@@ -166,27 +170,38 @@ namespace WiggleQuest
         // ¸ñ¼û Ãß°¡ - ¸ÔÀÌÈ¹µæ => ¿ø·¡ °®°íÀÖ´Â ¸ñ¼û += ¾òÀº ¸ÔÀÌ + ¾òÀº ¸ÔÀÌ * (goldAddLv * 00%)
         public void AddHeart(float value)
         {
-            heart += value + (int)(value * heartAddLv * heartAddP);
+            float tmp = value + (value * heartAddLv * heartAddP);
+            heart += tmp;
+
+            string str = "+" + tmp.ToString("F1");
+            statusUI.StartCoroutine(statusUI.DrawAddText(AddType.Heart, str));
         }
 
         //      °¨¼Ò - Àå¾Ö¹° ºÎµúÈû => ½¯µå!
         public void SubtractHeart(float value)
         {
-            heart -= value;
-            if (heart <= 0)
+            float tmp = value - (defAddLv * defAddP);
+            if (heart - tmp <= 0)
             {
                 heart = 0;
                 //Á×À½Ã³¸®
                 DeadWorm();
                 return;
             }
+            heart -= tmp;
+
+            string str = "-" + tmp.ToString("F1");
+            statusUI.StartCoroutine(statusUI.DrawAddText(AddType.Heart, str));
         }
 
         // °ñµå Ãß°¡ - °ñµåÈ¹µæ => ¿ø·¡ µé°íÀÖ´Â °ñµå += ¾òÀº °ñµå + ¾òÀº °ñµå * (goldAddLv * 00%) 
         public void AddGold(int value)
         {
-            gold += value + (int)(value * goldAddLv * goldAddP);
-            Debug.Log(gold);
+            int tmp = value + (int)(value * goldAddLv * goldAddP);
+            gold += tmp;
+
+            string str = "+" + tmp.ToString();
+            statusUI.StartCoroutine(statusUI.DrawAddText(AddType.Gold, str));
         }
 
         //      °¨¼Ò - »óÁ¡±¸¸Å
@@ -208,12 +223,14 @@ namespace WiggleQuest
         public void AddSpeed(float value)
         {
             speed += value + (int)(value * speedAddLv * speedAddP);
+            Debug.Log(speed);
         }
 
         // ¹æ¾î·Â Ãß°¡ (ÆÛ¼¾Æ®)
         public void AddDef(float value)
         {
             def += value + (int)(value * defAddLv * defAddP);
+            Debug.Log(def);
         }
         #endregion
 

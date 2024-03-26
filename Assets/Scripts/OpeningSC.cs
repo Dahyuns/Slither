@@ -1,18 +1,37 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class OpeningSC : MonoBehaviour
 {
+    public TextMeshProUGUI sqText;
+    public TextMeshProUGUI clickText;
+    [SerializeField] private string ObjectiveMs = "100♡를 달성하세요!";
 
+    private bool isSquance = false;
 
-    void Start()
+    void Awake()
     {
-        
+        StartCoroutine(ShowObjective());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (isSquance && Input.anyKeyDown)
+        {
+            Time.timeScale = 1f;
+            sqText.text = "";
+            clickText.text = "";
+            isSquance = false;
+        }
+    }
+
+    IEnumerator ShowObjective()
+    {
+        isSquance = true;
+        sqText.text = ObjectiveMs;
+        yield return new WaitForEndOfFrame();
+        Time.timeScale = 0f;
     }
 }
 
