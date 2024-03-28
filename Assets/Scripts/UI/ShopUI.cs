@@ -177,21 +177,51 @@ namespace WiggleQuest
         }
 
         //방어력 구매
-        public void PurchaseDef()
+        public void PurchaseDef(Button clickedButton)
         {
-            //레벨이 업가능레벨보다 크거나 같으면 return
-            if (Worm.DefLv >= priceDef.Length)
+            PriceType priceType = clickedButton.GetComponent<PriceTextControl>().priceType;
+            Debug.Log(priceType);
+            switch (priceType)
             {
-                Debug.Log("방어력 구매불가");
-                return; 
+                case PriceType.ArmorS:
+                    if (worm.SubtractGold(priceDef[0]))
+                    {
+                        worm.AddLv(AddPercent.Def);
+                        return;
+                    }
+                    break;
+                case PriceType.ArmorM:
+                    if (worm.SubtractGold(priceDef[1]))
+                    {
+                        worm.AddLv(AddPercent.Def);
+                        return;
+                    }
+                    break;
+                case PriceType.ArmorL:
+                    if (worm.SubtractGold(priceDef[2]))
+                    {
+                        worm.AddLv(AddPercent.Def);
+                        return;
+                    }
+                    break;
+
+                default:
+                Debug.Log("방어력 구매불가");  break;
             }
-            //                         작으면 진행 
-            //1,2,3레벨 갑옷 구분필요
-            if (worm.SubtractGold(priceDef[Worm.DefLv]))
-            {
-                worm.AddLv(AddPercent.Def);
-                return;
-            }
+
+            ////레벨이 업가능레벨보다 크거나 같으면 return
+            //if (Worm.DefLv >= priceDef.Length)
+            //{
+            //    Debug.Log("방어력 구매불가");
+            //    return; 
+            //}
+            ////                         작으면 진행 
+            ////1,2,3레벨 갑옷 구분필요
+            //if (worm.SubtractGold(priceDef[Worm.DefLv]))
+            //{
+            //    worm.AddLv(AddPercent.Def);
+            //    return;
+            //}
         }
         #endregion
 

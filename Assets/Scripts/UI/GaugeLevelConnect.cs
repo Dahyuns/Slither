@@ -6,10 +6,8 @@ namespace WiggleQuest
 {
     public class GaugeLevelConnect : MonoBehaviour
     {
-        //이미지만 나오게 하면됨 / 삭제는 X
-
         //갑옷
-        public List<Button> armorImage = new List<Button>(3); //갑옷은 버튼 ins어쩌구 그걸루
+        public List<Button> armorImage = new List<Button>(3);
 
         //나머지 //처음엔 false해놧다가 하나씩 true로 변경
         public GameObject speedImGroup;
