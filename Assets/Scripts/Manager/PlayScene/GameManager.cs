@@ -12,11 +12,14 @@ namespace WiggleQuest
         [SerializeField] private GameObject GameOverUI;
         [SerializeField] private TextMeshProUGUI cantMoveTextUI;
 
-        private string sceneGO = "GameOver";
+        private string sceneOVER = "GameOver";
+        private string sceneWIN = "GameClear";
         private string cantMoveText = "Can't Move Animore...";
         [SerializeField] private float waitTimer = 3f;
 
         private bool isGameover = false;
+
+        private bool isWin = false;
 
 
         void Update()
@@ -24,7 +27,22 @@ namespace WiggleQuest
             if(Worm.isWormDead && isGameover == false)
             {
                 GameOver();
+                return;
             }
+
+            if (Input.GetKeyUp(KeyCode.G))
+            {
+                isWin = true;
+            }
+
+            if (isWin == true)
+            {
+                int point = 800;
+                point++;
+                ScoreSaveManager.Instance.SetNewScore(point);
+                StartCoroutine(GotoScene(sceneWIN));
+            }
+            
         }
 
         //게임오버
@@ -37,7 +55,7 @@ namespace WiggleQuest
             waitTimer = Mathf.Clamp(waitTimer, 1f, 8f);
 
             StartCoroutine(typewriterText());
-            StartCoroutine(GotoScene(sceneGO,waitTimer));
+            StartCoroutine(GotoScene(sceneOVER,waitTimer));
         }
 
         //해당씬으로 이동

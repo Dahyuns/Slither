@@ -12,12 +12,11 @@ namespace WiggleQuest
         {
             SceneManager.LoadScene(scenePlay);
             //GameManager.Reset();
-            Debug.Log("NewGame");
         }
 
         public void BContinue()
         {
-            Debug.Log("Continue");
+
         }
 
         //Á¾·á
