@@ -180,7 +180,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Game
+  m_text: 'START
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e5f7c16f8f844414ab1b836aa1d4dde1, type: 2}
   m_sharedMaterial: {fileID: -5216010867866164025, guid: e5f7c16f8f844414ab1b836aa1d4dde1,
@@ -702,6 +704,7 @@ MonoBehaviour:
   - {fileID: 2084202498}
   - {fileID: 514037104}
   - {fileID: 1768799689}
+  strKeys: []
 --- !u!1 &514037102
 GameObject:
   m_ObjectHideFlags: 0
@@ -2335,7 +2338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1943551133
 RectTransform:
   m_ObjectHideFlags: 0

@@ -18,10 +18,10 @@ namespace WiggleQuest
         private int priceShop = 50;
         public int PriceShop { get { return priceShop; } }
 
-        [SerializeField] private int[] priceHeart = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100 };
-        [SerializeField] private int[] priceGold  = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100 };
-        [SerializeField] private int[] priceSpeed = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100 };
-        [SerializeField] private int[] priceDef   = { 100, 200, 300 };
+        [SerializeField] private int[] priceHeart = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000};
+        [SerializeField] private int[] priceGold  = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000};
+        [SerializeField] private int[] priceSpeed = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000};
+        [SerializeField] private int[] priceDef   = { 100, 400, 800 };
         public int[] PriceHeart { get { return priceHeart; } }
         public int[] PriceGold  { get { return priceGold; } }
         public int[] PriceSpeed { get { return priceSpeed; } }
@@ -177,51 +177,51 @@ namespace WiggleQuest
         }
 
         //방어력 구매
-        public void PurchaseDef(Button clickedButton)
+        public void PurchaseDef()//Button clickedButton)
         {
-            PriceType priceType = clickedButton.GetComponent<PriceTextControl>().priceType;
-            Debug.Log(priceType);
-            switch (priceType)
+           // PriceType priceType = clickedButton.GetComponent<PriceTextControl>().priceType;
+           // Debug.Log(priceType);
+           // switch (priceType)
+           // {
+           //     case PriceType.ArmorS:
+           //         if (worm.SubtractGold(priceDef[0]))
+           //         {
+           //             worm.AddLv(AddPercent.Def);
+           //             return;
+           //         }
+           //         break;
+           //     case PriceType.ArmorM:
+           //         if (worm.SubtractGold(priceDef[1]))
+           //         {
+           //             worm.AddLv(AddPercent.Def);
+           //             return;
+           //         }
+           //         break;
+           //     case PriceType.ArmorL:
+           //         if (worm.SubtractGold(priceDef[2]))
+           //         {
+           //             worm.AddLv(AddPercent.Def);
+           //             return;
+           //         }
+           //         break;
+           //
+           //     default:
+           //     Debug.Log("방어력 구매불가");  break;
+           // }
+
+            //레벨이 업가능레벨보다 크거나 같으면 return
+            if (Worm.DefLv >= priceDef.Length)
             {
-                case PriceType.ArmorS:
-                    if (worm.SubtractGold(priceDef[0]))
-                    {
-                        worm.AddLv(AddPercent.Def);
-                        return;
-                    }
-                    break;
-                case PriceType.ArmorM:
-                    if (worm.SubtractGold(priceDef[1]))
-                    {
-                        worm.AddLv(AddPercent.Def);
-                        return;
-                    }
-                    break;
-                case PriceType.ArmorL:
-                    if (worm.SubtractGold(priceDef[2]))
-                    {
-                        worm.AddLv(AddPercent.Def);
-                        return;
-                    }
-                    break;
-
-                default:
-                Debug.Log("방어력 구매불가");  break;
+                Debug.Log("방어력 구매불가");
+                return; 
             }
-
-            ////레벨이 업가능레벨보다 크거나 같으면 return
-            //if (Worm.DefLv >= priceDef.Length)
-            //{
-            //    Debug.Log("방어력 구매불가");
-            //    return; 
-            //}
-            ////                         작으면 진행 
-            ////1,2,3레벨 갑옷 구분필요
-            //if (worm.SubtractGold(priceDef[Worm.DefLv]))
-            //{
-            //    worm.AddLv(AddPercent.Def);
-            //    return;
-            //}
+            //                         작으면 진행 
+            //1,2,3레벨 갑옷 구분필요
+            if (worm.SubtractGold(priceDef[Worm.DefLv]))
+            {
+                worm.AddLv(AddPercent.Def);
+                return;
+            }
         }
         #endregion
 

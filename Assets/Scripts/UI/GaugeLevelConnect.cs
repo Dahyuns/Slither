@@ -6,10 +6,7 @@ namespace WiggleQuest
 {
     public class GaugeLevelConnect : MonoBehaviour
     {
-        //갑옷
-        public List<Button> armorImage = new List<Button>(3);
-
-        //나머지 //처음엔 false해놧다가 하나씩 true로 변경
+        //갑옷 뺀 나머지 //처음엔 false해놧다가 하나씩 true로 변경
         public GameObject speedImGroup;
         public GameObject goldImGroup;
         public GameObject healthImGroup;
@@ -22,8 +19,6 @@ namespace WiggleQuest
         private int speedLv  = 0;
         private int goldLv   = 0;
         private int heartLv  = 0;
-
-        private int defLv    = 0;
 
         void Start()
         {
@@ -47,20 +42,6 @@ namespace WiggleQuest
             {
                 AddGaugeImage(heartIms, ref heartLv);
             }
-
-            if (Worm.DefLv != defLv)
-            {
-                defLv = Worm.DefLv;
-                for(int i = 0; i < armorImage.Count; i++)
-                {
-                    armorImage[i].interactable = false;
-                    if (i == defLv) 
-                    {
-                        armorImage[i].interactable = true;
-                    }
-                }
-            }
-
         }
 
         void AddGaugeImage(Image[] images, ref int level)

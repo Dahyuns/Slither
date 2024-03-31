@@ -1,8 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static Unity.Burst.Intrinsics.X86.Avx;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace WiggleQuest
 {
@@ -48,15 +46,15 @@ namespace WiggleQuest
         public static int DefLv { get { return defAddLv; } }
 
         //--%만큼 추가 획득 <고정> //밸런스조절부분
-        private const float heartAddP = 3;                    //먹이   --%만큼 추가 획득
-        private const float goldAddP = 10;                    //골드   --%만큼 추가 획득
-        private const float speedAddP = 100;                    //속도   --%만큼 추가 획득
-        private const float defAddP = 10;                    //방어력 --%만큼 추가 획득
+        private const float heartAddP   = 0.2f;                   //먹이   --%만큼 추가 획득
+        private const float goldAddP    = 1f;                     //골드   --%만큼 추가 획득
+        private const float speedAddP   = 0.7f;                   //속도   --%만큼 추가 획득
+        private const float defAddP     = 0.2f;                   //방어력 --%만큼 추가 획득
 
         //시작 스탯 > 초기화용
         private int startHeart = 3;
         private int startGold = 10;
-        private float startSpeed = 5f;
+        private float startSpeed = 4f;
         private float startDef = 0;
 
         //이동
@@ -92,17 +90,6 @@ namespace WiggleQuest
                 return;
             }
 
-            //스피드와 방어력 적용
-            //if (speed < )
-            {
-
-            }
-            //if (def < )
-            {
-
-            }
-
-
             //이동
             if (moveDir != Vector3.zero)
             {
@@ -115,14 +102,14 @@ namespace WiggleQuest
                 beforeLocate = this.transform.position;
             }
 
-            //[치트키]
+            #region [치트키] : M , LeftShift, LeftControl 
             //골드 up
-            if (Input.GetKey(KeyCode.M)) gold += 10000;
+            if (Input.GetKeyDown(KeyCode.M)) gold += 2000;
             //꼬리 개수 up
             if (Input.GetKeyDown(KeyCode.LeftShift)) heart++;
             //꼬리 개수 down
             if (Input.GetKeyDown(KeyCode.LeftControl)) heart--;
-
+            #endregion
         }
 
         //Gold, Heart, Def중 선택, % 레벨 추가     
@@ -151,6 +138,7 @@ namespace WiggleQuest
                     if (speedAddLv < shopUI.PriceSpeed.Length)
                     {
                         speedAddLv++;
+                        AddSpeed(); //적용
                     }
                     break;
 
@@ -177,10 +165,10 @@ namespace WiggleQuest
             statusUI.StartCoroutine(statusUI.DrawAddText(AddType.Heart, str));
         }
 
-        //      감소 - 장애물 부딪힘 => 쉴드!
+        //      감소 - 장애물 부딪힘 => 방어력 적용!
         public void SubtractHeart(float value)
         {
-            float tmp = value - (defAddLv * defAddP);
+            float tmp = value - (value * defAddLv * defAddP);
             if (heart - tmp <= 0)
             {
                 heart = 0;
@@ -219,18 +207,11 @@ namespace WiggleQuest
             }
         }
 
-        // 속도 증가
-        public void AddSpeed(float value)
+        // 속도 증가 - 적용
+        public void AddSpeed()
         {
-            speed += value + (int)(value * speedAddLv * speedAddP);
+            speed += speedAddP;
             Debug.Log(speed);
-        }
-
-        // 방어력 추가 (퍼센트)
-        public void AddDef(float value)
-        {
-            def += value + (int)(value * defAddLv * defAddP);
-            Debug.Log(def);
         }
         #endregion
 

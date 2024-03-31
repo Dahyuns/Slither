@@ -21,9 +21,11 @@ namespace WiggleQuest
 
         private bool isWin = false;
 
+        int point = 800;
 
         void Update()
         {
+            Debug.Log("");
             if(Worm.isWormDead && isGameover == false)
             {
                 GameOver();
@@ -37,8 +39,7 @@ namespace WiggleQuest
 
             if (isWin == true)
             {
-                int point = 800;
-                point++;
+                point += 50;
                 ScoreSaveManager.Instance.SetNewScore(point);
                 StartCoroutine(GotoScene(sceneWIN));
             }
@@ -61,6 +62,7 @@ namespace WiggleQuest
         //해당씬으로 이동
         IEnumerator GotoScene(string sceneName, float timer = 0f)
         {
+            isWin = false;
             yield return new WaitForSeconds(timer);
             SceneManager.LoadScene(sceneName);
         }

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ScoreSaveManager : MonoBehaviour
 {
-    public static ScoreSaveManager instance;
+    private static ScoreSaveManager instance;
     public static ScoreSaveManager Instance
     {  get 
         { 
@@ -20,7 +20,7 @@ public class ScoreSaveManager : MonoBehaviour
     private int[] scores;
 
     //PlayerPrefs Key값
-    public string[] strKeys;
+    private string[] strKeys;
 
 
     void Start()
@@ -35,7 +35,8 @@ public class ScoreSaveManager : MonoBehaviour
             Debug.LogWarning("Duplicate ScoreSaveManager instance found!");
             Destroy(gameObject);
         }
-            scores = new int[] { 0, 0, 0, 0 };
+        
+        scores = new int[] { 0, 0, 0, 0 };
         strKeys = new string[] { "strFirst", "strSecond", "strThird", "strFourth"};
 
         //저장되어 있는 값 가져오기
@@ -45,6 +46,10 @@ public class ScoreSaveManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            DrawScore();
+        }
         ButtonSwitch();
     }
 
@@ -58,14 +63,14 @@ public class ScoreSaveManager : MonoBehaviour
             {
                 int tmp = scores[i];
                 scores[i] = newValue;
-                if (i + 1 < scores.Length)
+                if (i < scores.Length - 1)
                 {
                     scores[i + 1] = tmp;
                 }
             }
             else
             {
-                return;
+                break;
             }
         }
 
@@ -90,7 +95,7 @@ public class ScoreSaveManager : MonoBehaviour
 
     }
 
-    //켜고끄기 [버튼] 
+    //[초기화 버튼] 켜고끄기 
     private void ButtonSwitch()
     {
         //위에서부터 하나씩 추가 하기때문에
@@ -108,7 +113,7 @@ public class ScoreSaveManager : MonoBehaviour
         }
     }
 
-    //초기화 [버튼]
+    //[초기화 버튼] 기능
     public void ResetScore()
     {
         //지울땐 전부 지움 (하나씩X)
