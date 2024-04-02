@@ -1,7 +1,6 @@
+using System.Collections;
 using UnityEngine;
 using TMPro;
-using System.Collections;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace WiggleQuest
 {

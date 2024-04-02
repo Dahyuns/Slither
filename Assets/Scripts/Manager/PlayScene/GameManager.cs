@@ -2,15 +2,26 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Drawing;
 
 namespace WiggleQuest
 {
     public class GameManager : MonoBehaviour
     {
+        private static GameManager instance;
+        public static GameManager Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
         //참조
-        public Worm worm;
+        [SerializeField] private Worm worm;
         [SerializeField] private GameObject GameOverUI;
         [SerializeField] private TextMeshProUGUI cantMoveTextUI;
+        [SerializeField] private TextMeshProUGUI timerText;
 
         private string sceneOVER = "GameOver";
         private string sceneWIN = "GameClear";
@@ -18,14 +29,44 @@ namespace WiggleQuest
         [SerializeField] private float waitTimer = 3f;
 
         private bool isGameover = false;
-
         private bool isWin = false;
+        public bool isPlay = false;
 
-        int point = 800;
+        //이번 점수
+        private int point;
+
+        //게임타이머
+        [SerializeField] private float timer = 60f; //1분
+
+        void Start ()
+        {
+            //초기화
+            if (Instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                Debug.LogWarning("Duplicate GameManager instance found!");
+                Destroy(gameObject);
+            }
+        }
 
         void Update()
         {
-            Debug.Log("");
+            //1분 타이머
+            if (isGameover == false && isPlay == true)
+            {
+                timerText.text = ((int)timer).ToString("D2");
+                timer -= Time.deltaTime;
+
+                if (timer < 0)
+                {
+                    GameOver();
+                }
+            }
+
+            //Debug.Log("");
             if(Worm.isWormDead && isGameover == false)
             {
                 GameOver();
@@ -39,7 +80,8 @@ namespace WiggleQuest
 
             if (isWin == true)
             {
-                point += 50;
+                isPlay = false;
+                point = (int)timer * 3;
                 ScoreSaveManager.Instance.SetNewScore(point);
                 StartCoroutine(GotoScene(sceneWIN));
             }
