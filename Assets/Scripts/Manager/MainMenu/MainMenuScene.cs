@@ -3,30 +3,27 @@ using UnityEngine.SceneManagement;
 
 namespace WiggleQuest
 {
-    public class MainMenuScene : MonoBehaviour
+    public class MainMenuScene : FadeINOUT
     {
-        private string scenePlay = "PlayScene";
-        //private string sceneTitle = "Title";
+        protected override void Start()
+        {
+            base.Start();
+            StartCoroutine(FadeIN());
+        }
 
         public void BNewGame()
         {
-            SceneManager.LoadScene(scenePlay);
-            //GameManager.Reset();
-        }
-
-        public void BContinue()
-        {
-
+            SceneManager.LoadScene(PlayScene);
         }
 
         //종료
         public void BExit()
         {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false; // 에디터에서 실행 중일 때
-#else
-        Application.Quit(); // 빌드된 런타임에서 실행 중일 때
-#endif
+            #if UNITY_EDITOR
+                        UnityEditor.EditorApplication.isPlaying = false; // 에디터에서 실행 중일 때
+            #else
+                    Application.Quit(); // 빌드된 런타임에서 실행 중일 때
+            #endif
         }
     }
 }

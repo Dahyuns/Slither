@@ -211,7 +211,6 @@ namespace WiggleQuest
         public void AddSpeed()
         {
             speed += speedAddP;
-            Debug.Log(speed);
         }
         #endregion
 

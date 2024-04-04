@@ -1,24 +1,26 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using TMPro;
 
 namespace WiggleQuest
 {
-    public class TitleScene : MonoBehaviour
+    public class TitleScene : FadeINOUT
     {
-        [SerializeField] private string MainMenu = "MainMenu";
-        [SerializeField] private float readyTime = 2f;
-        private bool isReady = false;
-        private bool isTimerStart = false;
-
-
         [SerializeField] private TextMeshProUGUI PressTextUI;
+
         private string PressText = "Press Anikey";
         private string waitText = "...";
 
-        private void Start()
+        private float readyTime = 2f;
+
+        private bool isReady;
+        private bool isTimerStart;
+
+        protected override void Start()
         {
+            base.Start();
+            isReady = false;
+            isTimerStart = false;
             StartCoroutine(typewriterText());
         }
 
@@ -26,21 +28,23 @@ namespace WiggleQuest
         {
             if (isReady == false && isTimerStart == false)
             {
+                isTimerStart = true;
                 StartCoroutine(StartTimer(readyTime));
             }
-            else if (isReady && Input.anyKeyDown)
+            if (isReady && Input.anyKeyDown)
             {
-                SceneManager.LoadScene(MainMenu);
+                StartCoroutine(LoadWQScene(MainMenu));
             }
         }
 
+        //입력받기 시작 타이머
         IEnumerator StartTimer(float sec)
         {
             yield return new WaitForSeconds(sec);
             isReady = true;
         }
         
-        //TEXT 타이핑연출 + ...계속되게 가능?
+        //타이핑연출
         IEnumerator typewriterText()
         {
             PressTextUI.text = "";
@@ -58,6 +62,7 @@ namespace WiggleQuest
             StartCoroutine(WaitingText(PressTextUI));
         }
 
+        //"..." 계속 출력
         IEnumerator WaitingText(TextMeshProUGUI textUI)
         {
             string tempText = textUI.text;
