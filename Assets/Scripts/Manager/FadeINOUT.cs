@@ -26,7 +26,6 @@ namespace WiggleQuest
         protected IEnumerator FadeIN(float timer = 0f)
         {
             isCorutine =true;
-            Debug.Log("fIN");
             float alpha = 1.0f;
             yield return new WaitForSeconds(timer);
 
@@ -41,8 +40,6 @@ namespace WiggleQuest
 
         protected IEnumerator LoadWQScene(string sceneName, float timer = 0f)
         {
-            Debug.Log("fOUT");
-            isCorutine = true;
             StartCoroutine(FadeOUT(timer));
             while (isCorutine)
             {
@@ -53,6 +50,7 @@ namespace WiggleQuest
 
         IEnumerator FadeOUT(float timer)
         {
+            isCorutine = true;
             yield return new WaitForSeconds(timer);
 
             float alpha = 0f;

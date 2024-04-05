@@ -16,17 +16,18 @@ namespace WiggleQuest
         }
 
         //참조
-        public Button resetButton;
-        public TextMeshProUGUI[] scorePlace;
+        private Button resetButton;
+        private TextMeshProUGUI[] scorePlace;
 
         //임시 저장
         private int[] scores;
+        
+        private static int countInstance = 0;
 
         //PlayerPrefs Key값
         private string[] strKeys;
 
-
-        void Start()
+        void Awake()
         {
             //초기화
             if (Instance == null)
@@ -39,8 +40,24 @@ namespace WiggleQuest
                 Destroy(gameObject);
             }
 
-            scores = new int[] { 0, 0, 0, 0 };
+            // 씬 이동시 파괴금지
+            DontDestroyOnLoad(gameObject);
+
+
+            //초기화
+            resetButton = GameObject.Find("ResetB").GetComponent<Button>();
+            scorePlace = GameObject.Find("Board").GetComponentsInChildren<TextMeshProUGUI>();
+
             strKeys = new string[] { "strFirst", "strSecond", "strThird", "strFourth" };
+            scores = new int[] { 0, 0, 0, 0 };
+            for(int i = 0; i < scores.Length; i++)
+            {
+                scores[i] = PlayerPrefs.GetInt(strKeys[i], 0);
+            }
+
+            countInstance++;
+
+
 
             //저장되어 있는 값 가져오기
             DrawScore();
@@ -49,11 +66,15 @@ namespace WiggleQuest
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.H))
+            if (resetButton != null)
             {
-                DrawScore();
+                if (Input.GetKeyDown(KeyCode.H))
+                {
+                    DrawScore();
+                }
+
+                ButtonSwitch();
             }
-            ButtonSwitch();
         }
 
         //새로운 점수 획득시

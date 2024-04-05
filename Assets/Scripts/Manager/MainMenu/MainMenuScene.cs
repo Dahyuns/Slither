@@ -13,7 +13,7 @@ namespace WiggleQuest
 
         public void BNewGame()
         {
-            SceneManager.LoadScene(PlayScene);
+            StartCoroutine(LoadWQScene(PlayScene));
         }
 
         //종료
@@ -21,9 +21,14 @@ namespace WiggleQuest
         {
             #if UNITY_EDITOR
                         UnityEditor.EditorApplication.isPlaying = false; // 에디터에서 실행 중일 때
-            #else
+#else
                     Application.Quit(); // 빌드된 런타임에서 실행 중일 때
-            #endif
+#endif
+        }
+
+        public void BMenu()
+        {
+            StartCoroutine(LoadWQScene(MainMenu));
         }
     }
 }

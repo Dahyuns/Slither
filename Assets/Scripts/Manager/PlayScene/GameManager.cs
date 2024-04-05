@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 namespace WiggleQuest
@@ -15,19 +14,18 @@ namespace WiggleQuest
                 return instance;
             }
         }
-
         //참조
         [SerializeField] private Worm worm;
         [SerializeField] private GameObject GameOverUI;
         [SerializeField] private TextMeshProUGUI cantMoveTextUI;
         [SerializeField] private TextMeshProUGUI timerText;
-        [SerializeField] private Image fadeImage;
 
         private string cantMoveText = "Can't Move Animore...";
 
         private bool isGameover = false;
         private bool isWin = false;
-        public bool isPlay = false;
+
+        public bool isPlay = false; //OpeningSC에서 쓰임
 
         //이번 점수
         private int point;
@@ -37,15 +35,17 @@ namespace WiggleQuest
         //private float turnSpeed = 3f;
 
         //게임타이머
-        [SerializeField] private float timer = 60f; //1분
+        private float timer = 60f; //1분
 
         public void ResetTimer()
         {
             timer = 60f;
         }
 
-        protected override void Start()
+        private void Awake()
         {
+            StartCoroutine(FadeIN());
+
             //초기화
             if (Instance == null)
             {
@@ -53,12 +53,20 @@ namespace WiggleQuest
             }
             else
             {
-                Debug.LogWarning("Duplicate GameManager instance found!");
+                  Debug.LogWarning("Duplicate GameManager instance found!");
                 Destroy(gameObject);
             }
 
-            base.Start();
-            StartCoroutine(FadeIN());
+            //이벤트 추가
+            ResetGame.Reset += Reset;
+        }
+
+
+        private void Reset()
+        {
+            Worm.isWormDead = false; 
+            isGameover = false;
+            ResetTimer();
         }
 
         void Update()
@@ -82,7 +90,6 @@ namespace WiggleQuest
             {
                 isPlay = false;
                 isGameover = true;
-                isWin = false;
 
 
                 worm.DeadWorm();
@@ -94,14 +101,14 @@ namespace WiggleQuest
                 return;
             }
             //이겼을때
-            if (isWin == true)
+            if (isWin == true && isCorutine == false)
             {
                 isPlay = false;
-                isGameover = true;
-                isWin = true;
+                isWin = false;
 
-
-                point = (int)timer * 3;
+                //점수 : 남은시간 * 4 + 레벨 * 2
+                point = ((60 - (int)timer) * 4 ) + (Worm.Level * 2);
+                Debug.Log(point);
                 ScoreSaveManager.Instance.SetNewScore(point);
                 StartCoroutine(LoadWQScene(GameClear));
             }
@@ -147,10 +154,6 @@ namespace WiggleQuest
         }
 
         //미구현
-        public void Reset()
-        {
-            Worm.isWormDead = false;
-            isGameover = false;
-        }
+        //public void Reset()
     }
 }

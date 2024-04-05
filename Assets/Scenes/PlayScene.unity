@@ -1007,7 +1007,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -4347,7 +4347,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: click to start
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 396ab3615ee1cc644b48eac6052da28c, type: 2}
   m_sharedMaterial: {fileID: -8320414940611195084, guid: 396ab3615ee1cc644b48eac6052da28c,
@@ -4625,13 +4625,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368233422ca4006419158999e1303187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCorutine: 0
   worm: {fileID: 2657357314855450385}
   GameOverUI: {fileID: 271737635}
   cantMoveTextUI: {fileID: 1840718328}
   timerText: {fileID: 1972112510}
-  fadeImage: {fileID: 0}
   isPlay: 0
-  timer: 60
 --- !u!114 &697590199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4646,7 +4645,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sqText: {fileID: 1182997575}
   clickText: {fileID: 662325398}
-  ObjectiveMs: "100\u2661\uB97C \uB2EC\uC131\uD558\uC138\uC694!"
+  objectiveMs: "100\u2661\uB97C \uB2EC\uC131\uD558\uC138\uC694!"
+  clickMs: click to start!
 --- !u!1 &713003092
 GameObject:
   m_ObjectHideFlags: 0
@@ -4814,7 +4814,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400, y: -35}
+  m_AnchoredPosition: {x: -400, y: 18}
   m_SizeDelta: {x: 800, y: 55.937}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &732178128
@@ -4831,7 +4831,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 0cb6ed616f29c344cabb1ab2ec7c0f65, type: 2}
   m_Color: {r: 0.754717, g: 0.7360824, b: 0.5731577, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -6775,7 +6775,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GoalMassage
+  m_text: '
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 396ab3615ee1cc644b48eac6052da28c, type: 2}
   m_sharedMaterial: {fileID: -8320414940611195084, guid: 396ab3615ee1cc644b48eac6052da28c,
@@ -8740,7 +8742,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -10908,7 +10910,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 60
+  m_text: 00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3abe52a222ee87a44baed4b3af85c268, type: 2}
   m_sharedMaterial: {fileID: -4276086328466634818, guid: 3abe52a222ee87a44baed4b3af85c268,
@@ -10972,7 +10974,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 83.87262, y: 0, z: 63.710907, w: -20.161682}
+  m_margin: {x: 22.74862, y: 0, z: 63.710907, w: -20.161682}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
