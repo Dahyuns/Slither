@@ -10,5 +10,10 @@ namespace WiggleQuest
     {
         //¿Ã∫•∆Æ
         public static event Action Reset;
+
+        public static void PerformReset()
+        {
+            Reset?.Invoke();
+        }
     }
 }

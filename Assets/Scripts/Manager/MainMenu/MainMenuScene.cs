@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 namespace WiggleQuest
 {
@@ -14,6 +15,9 @@ namespace WiggleQuest
         public void BNewGame()
         {
             StartCoroutine(LoadWQScene(PlayScene));
+
+            //게임리셋
+            ResetGame.PerformReset();
         }
 
         //종료

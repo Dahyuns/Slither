@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,15 +20,13 @@ namespace WiggleQuest
     public class Worm : MonoBehaviour
     {
         //Áö··ÀÌ ½ºÅÈ
-        [SerializeField] private static float heart;                       //¸ñ¼û
-        [SerializeField] private static int gold;                          //°ñµå
-        [SerializeField] private static float speed;                       //¼Óµµ
-        [SerializeField] private static float def;                         //¹æ¾î·Â
+        private static float heart;                       //¸ñ¼û
+        private static int gold;                          //°ñµå
+        private static float speed;                       //¼Óµµ
         //  ¤¤ÀÐ±âÀü¿ë
         public static float Heart { get { return heart; } }
         public static int Gold { get { return gold; } }
         public static float Speed { get { return speed; } }
-        public static float Def { get { return def; } }
 
         //¸Ó¸®À§¿¡ Ç¥½Ã¿ë //·¹º§ = ¸ñ¼û ¹Ý³»¸²°ª
         public static int Level { get { return (int)heart; } }
@@ -46,16 +43,15 @@ namespace WiggleQuest
         public static int DefLv { get { return defAddLv; } }
 
         //--%¸¸Å­ Ãß°¡ È¹µæ <°íÁ¤> //¹ë·±½ºÁ¶ÀýºÎºÐ
-        private const float heartAddP   = 0.2f;                   //¸ÔÀÌ   --%¸¸Å­ Ãß°¡ È¹µæ
+        private const float heartAddP   = 0.5f;                   //¸ÔÀÌ   --%¸¸Å­ Ãß°¡ È¹µæ
         private const float goldAddP    = 1f;                     //°ñµå   --%¸¸Å­ Ãß°¡ È¹µæ
         private const float speedAddP   = 0.7f;                   //¼Óµµ   --%¸¸Å­ Ãß°¡ È¹µæ
         private const float defAddP     = 0.2f;                   //¹æ¾î·Â --%¸¸Å­ Ãß°¡ È¹µæ
 
         //½ÃÀÛ ½ºÅÈ > ÃÊ±âÈ­¿ë
         private int startHeart = 3;
-        private int startGold = 10;
+        private int startGold = 50;
         private float startSpeed = 4f;
-        private float startDef = 0;
 
         //ÀÌµ¿
         Vector3 moveDir;
@@ -68,14 +64,28 @@ namespace WiggleQuest
         public static bool isWormMoving = false;
         public static bool isWormDead = false;
 
-        private void Start()
+        private void Reset()
         {
+            isWormDead = false;
+
             //ÃÊ±âÈ­
             gold = startGold;
             heart = startHeart;
             speed = startSpeed;
-            def = startDef;
+            heartAddLv = 0;
+            goldAddLv = 0;
+            speedAddLv = 0;
+            defAddLv = 0;
+        }
+        private void Awake()
+        {
+            //ÃÊ±âÈ­
+            Reset();            
+            ResetGame.Reset += Reset;
+        }
 
+        private void Start()
+        {
             //ÂüÁ¶
             shopUI = GameObject.Find("ShopUI")?.GetComponent<ShopUI>();
             statusUI = GameObject.Find("StatusUI")?.GetComponent<StatusUI>();
