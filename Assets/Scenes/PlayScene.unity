@@ -5710,8 +5710,8 @@ MonoBehaviour:
   fieldTiles: []
   standardDis: 1000
   numFire: 40
-  numGold: 2
-  numFeed: 5
+  numGold: 10
+  numFeed: 15
 --- !u!1 &897474475
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,15 +35,17 @@ namespace WiggleQuest
         //private float turnSpeed = 3f;
 
         //게임타이머
-        private float timer = 60f; //1분
+        private float timer; //1분
+        [SerializeField] private float timeSet = 200f;
 
         public void ResetTimer()
         {
-            timer = 60f;
+            timer = timeSet;
         }
 
         private void Awake()
         {
+            timer = timeSet;
             StartCoroutine(FadeIN());
 
             //초기화
@@ -71,6 +73,10 @@ namespace WiggleQuest
 
         void Update()
         {
+            if (Worm.Level >= 100)
+            {
+                isWin = true;
+            }
             //1분 타이머
             if (isGameover == false && isPlay == true)
             {
@@ -107,7 +113,7 @@ namespace WiggleQuest
                 isWin = false;
 
                 //점수 : 남은시간 * 4 + 레벨 * 2
-                point = ((60 - (int)timer) * 4 ) + (Worm.Level * 2);
+                point = (int)((timer) * 4) + (Worm.Level * 2);
                 Debug.Log(point);
                 ScoreSaveManager.Instance.SetNewScore(point);
                 StartCoroutine(LoadWQScene(GameClear));
