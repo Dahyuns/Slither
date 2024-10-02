@@ -16,11 +16,11 @@ Wiggle Quest
 ## 개발일지
 |Section|Description|Blog Link|
 |:---|:---|:---|
-|맵 시스템|어느 곳으로 가든 끝없이 늘어나는 맵|https://dev-dahyun.tistory.com/14|
-|플레이어 성장 시스템|먹이를 먹으면 꼬리가 길어지는 지렁이|https://dev-dahyun.tistory.com/21|
-|아이템 스폰 시스템|플레이어 위치에 따른 아이템 스폰|https://dev-dahyun.tistory.com/22|
-|상점 시스템|상호작용 UI|https://dev-dahyun.tistory.com/24|
-|프로젝트 회고| - |
+|맵 시스템|어느 곳으로 가든 끝없이 늘어나는 맵|[Tistory 링크](https://dev-dahyun.tistory.com/14)|
+|플레이어 성장 시스템|먹이를 먹으면 꼬리가 길어지는 지렁이|[Tistory 링크](https://dev-dahyun.tistory.com/21)|
+|아이템 스폰 시스템|플레이어 위치에 따른 아이템 스폰|[Tistory 링크](https://dev-dahyun.tistory.com/22)|
+|상점 시스템|상호작용 UI|[Tistory 링크](https://dev-dahyun.tistory.com/24)|
+|프로젝트 회고|프로젝트를 진행하며 느낀 점과 개선점|[Tistory 링크](https://dev-dahyun.tistory.com/68)|
 
 ## 플레이 화면
 ![image](https://github.com/user-attachments/assets/20f11656-c721-4d72-b654-e9c20b2c3a1c)
